@@ -22,5 +22,3 @@ def db_conn():
 def hello():
     return jsonify({"message": "Hello, World!"})
 
-if __name__ == "__main__":
-    app.run(host="https://bdii-api.vercel.app", port=5000)
