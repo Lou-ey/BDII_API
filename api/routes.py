@@ -5,11 +5,16 @@ employee_routes = Blueprint('employee_routes', __name__)
 
 @employee_routes.route('/emp', methods=['GET'])
 def get_employee():
-    conn = db_conn()
-    if not conn:
-        return jsonify({"error": "Erro de conexão à base de dados"}), 500
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM emp")
-    result = cur.fetchall()
-    conn.close()
-    return jsonify(result)
+    try :
+        conn = db_conn()
+        if conn is None:
+            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
+
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM employee")
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        return jsonify({"employees": rows})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
