@@ -8,7 +8,7 @@ app.register_blueprint(employee_routes)
 
 @app.route('/')
 def home():
-    return
+    return "Hello, World!"
 
 if __name__ == '__main__':
     app.run()
