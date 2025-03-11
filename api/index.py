@@ -7,10 +7,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return 'Hello, World!'
+    return jsonify({"message": "Hello, Vercel!"})
 
-@app.route('/about')
-def about():
-    return 'About'
+# Vercel precisa desta variável para encontrar a app
+if __name__ == "__main__":
+    app.run()
+
 
 
