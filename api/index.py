@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from db.db import db_conn
-from routes.routes import employee_routes, test_db
+from routes.routes import test_db
 
 app = Flask(__name__)
 
@@ -12,8 +12,6 @@ def home():
 
 app.register_blueprint(test_db)
 
-
-app.register_blueprint(employee_routes)
 
 
 
