@@ -7,8 +7,5 @@ app.register_blueprint(employee_routes)
 
 @app.route('/')
 def home():
-    return jsonify({"message": "API Flask na Vercel está a funcionar!"})
-
-if __name__ == '__main__':
-    app.run()
+    return "API Flask na Vercel está a funcionar!"
 
