@@ -9,7 +9,5 @@ app.register_blueprint(employee_routes)
 def home():
     return jsonify({"message": "Hello World!"})
 
-if __name__ == '__main__':
-    app.run()
 
 
