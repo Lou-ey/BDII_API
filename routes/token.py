@@ -17,6 +17,6 @@ def token():
     return jsonify({"token": tokken})
 
 @token_routes.route('/decode_token')
-def decode_token(token):
-    data = jwt.JWT.decode(token, secret)
+def decode_token(tokken):
+    data = jwt.JWT.decode(tokken, secret)
     return jsonify({"data": data})
