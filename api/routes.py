@@ -1,5 +1,5 @@
-from flask import Blueprint, jsonify, request
-from db import db_conn
+from flask import Blueprint, jsonify
+from db.db import db_conn
 
 employee_routes = Blueprint('employee_routes', __name__)
 
