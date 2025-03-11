@@ -15,7 +15,7 @@ def get_employee():
         rows = cur.fetchall()
         cur.close()
         conn.close()
-        return jsonify({"employees": rows})
+        return jsonify({"Row": rows})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
