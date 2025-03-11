@@ -9,18 +9,14 @@ secret = os.getenv('secret')
 
 @token_routes.route('/token')
 def token():
-    token = jwt.JWT.encode(
+    tokken = jwt.JWT.encode(
         payload={"user_id": 1, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=10)},
         key=secret,
         alg="HS256",
     )
-    return jsonify({"token": token})
+    return jsonify({"token": tokken})
 
 @token_routes.route('/decode_token')
 def decode_token(token):
-    token = jwt.JWT.decode(
-        token=token,
-        key=secret,
-        alg="HS256",
-    )
-    return jsonify({"decoded_token": token})
+    data = jwt.JWT.decode(token, secret)
+    return jsonify({"data": data})
