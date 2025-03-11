@@ -3,7 +3,7 @@ from db.db import db_conn
 
 employee_routes = Blueprint('employee_routes', __name__)
 
-@employee.route('/emp', methods=['GET'])
+@employee_routes.route('/emp', methods=['GET'])
 def get_employee():
     try :
         conn = db_conn()
