@@ -17,8 +17,5 @@ def test_db():
         return jsonify({"message": f"Error connecting to database: {str(e)}"}), 500
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
-
 
 
