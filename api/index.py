@@ -1,17 +1,14 @@
-from flask import Flask, jsonify
-from routes import employee_routes
+from flask import Flask
 
 app = Flask(__name__)
 
-#app.register_blueprint(employee_routes)
-
 @app.route('/')
 def home():
-    return jsonify({"message": "Hello, Vercel!"})
+    return 'Hello, World!'
 
-# Vercel precisa desta variável para encontrar a app
-if __name__ == "__main__":
-    app.run()
+@app.route('/about')
+def about():
+    return 'About'
 
 
 
