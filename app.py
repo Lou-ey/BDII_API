@@ -1,6 +1,5 @@
 from flask import Flask, jsonify
 from db.db import db_conn
-from routes.quartos import quarto_routes
 from routes.utilizadores import utilizadores_routes
 from routes.quartos import quarto_routes
 from routes.token import token_routes

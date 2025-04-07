@@ -20,13 +20,11 @@ def get_all_users():
         return jsonify({"error": str(e)}), 500
 
 
-    """ 
-@utilizadores_routes.route('/user/get_by_id', methods=['GET'])
-def get_user_by_id():
-    try :
-        conn = db_conn()
-        if conn is None:
-            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
-            acabar
 
-"""
+#@utilizadores_routes.route('/user/get_by_id', methods=['GET'])
+#def get_user_by_id():
+#    try :
+#        conn = db_conn()
+#        if conn is None:
+#            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
+#            acabar
