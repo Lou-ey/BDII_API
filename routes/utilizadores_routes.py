@@ -27,6 +27,6 @@ def get_user_by_id():
         conn = db_conn()
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
-            
+            acabar
 
 """
