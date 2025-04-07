@@ -9,11 +9,10 @@ import datetime
 app = Flask(__name__)
 
 
-app.register_blueprint(utilizadores_routes)
+app.register_blueprint(utilizadores_routes, url_prefix='/users')
 
-app.register_blueprint(quarto_routes)
+app.register_blueprint(quarto_routes, url_prefix='/rooms')
 
-app.register_blueprint(token_routes)
 
 @app.route('/')
 def home():
