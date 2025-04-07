@@ -18,5 +18,5 @@ def db_conn():
         )
         return conn
     except Exception as e:
-        print("Erro ao conectar à base de dados:", e)
+        print("Error connecting to database: ", e)
         return None
