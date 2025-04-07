@@ -11,7 +11,7 @@ def get_employee():
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
         cur = conn.cursor()
-        cur.execute("SELECT * FROM test_table")
+        cur.execute("SELECT * FROM quartos")
         rows = cur.fetchall()
         cur.close()
         conn.close()
