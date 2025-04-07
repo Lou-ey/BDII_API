@@ -19,6 +19,7 @@ def get_all_users():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
     """ 
 @utilizadores_routes.route('/user/get_by_id', methods=['GET'])
 def get_user_by_id():
