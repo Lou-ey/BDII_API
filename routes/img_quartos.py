@@ -3,7 +3,7 @@ from db.db import db_conn
 
 img_quartos_routes = Blueprint('img_quartos_routes', __name__)
 
-@img_quartos_routes.route('/img_quartos/get_all/<id_quarto>', methods=['GET'])
+@img_quartos_routes.route('/img_quartos/get_all/<int:id_quarto>', methods=['GET'])
 def get_img_quartos(id_quarto):
     try:
         conn = db_conn()
