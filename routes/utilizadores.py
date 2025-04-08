@@ -38,7 +38,11 @@ def insert_user():
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
         cur = conn.cursor()
-        cur.callproc('insert_user', (nome, email, password, nif, telefone, idade, tipo))
+
+        cur.execute("CALL insert_user(%s, %s, %s, %s, %s, %s, %s)",
+                    (nome, email, password, nif, telefone, idade, tipo))
+
+        #cur.callproc('insert_user', (nome, email, password, nif, telefone, idade, tipo))
 
         conn.commit()
         cur.close()
