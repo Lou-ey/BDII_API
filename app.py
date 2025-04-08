@@ -13,7 +13,6 @@ app.register_blueprint(utilizadores_routes)
 
 app.register_blueprint(quarto_routes)
 
-
 @app.route('/')
 def home():
     return "LUME!"
