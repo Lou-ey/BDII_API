@@ -20,12 +20,37 @@ def get_all_users():
         return jsonify({"error": str(e)}), 500
 
 
+@utilizadores_routes.route('/user/get_by_id', methods=['GET'])
+def insert_user():
+    try:
+        id = request.args.get('id')  # ir buscar o parametro ao request http
+
+
+        conn = db_conn()
+        if conn is None:
+            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
+
+        cur = conn.cursor()
+
+        cur.execute("SELECT * FROM users_view WHERE id_utilizador = %s", #chamar o procedimento
+                    (id)) #levar os valores
+        rows = cur.fetchall()
+
+        cur.close()
+        conn.close()
+
+        return jsonify({"Row": rows})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @utilizadores_routes.route('/user/insert', methods=['POST'])
 def insert_user():
     try:
-        data = request.get_json()
+        data = request.get_json()  #ir buscar o body ao request http
 
-        nome = data.get('nome')
+        nome = data.get('nome')  #extrair variaveis
         email = data.get('email')
         password = data.get('password')
         nif = data.get('nif')
@@ -39,10 +64,10 @@ def insert_user():
 
         cur = conn.cursor()
 
-        cur.execute("CALL insert_user(%s, %s, %s, %s, %s, %s, %s)",
-                    (nome, email, password, nif, telefone, idade, tipo))
+        cur.execute("CALL insert_user(%s, %s, %s, %s, %s, %s, %s)", #chamar o procedimento
+                    (nome, email, password, nif, telefone, idade, tipo)) #levar os valores
 
-        #cur.callproc('insert_user', (nome, email, password, nif, telefone, idade, tipo))
+
 
         conn.commit()
         cur.close()
@@ -51,6 +76,6 @@ def insert_user():
         return jsonify({"message": "Utilizador inserido com sucesso!"}), 200
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"Erro ao inserir Utilizador, error": str(e)}), 500
 
 
