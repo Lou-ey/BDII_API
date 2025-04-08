@@ -21,7 +21,7 @@ def get_all_users():
 
 
 @utilizadores_routes.route('/user/<int:id_utilizador>', methods=['GET'])
-def insert_user(id_utilizador):
+def get_user_by_id(id_utilizador):
     try:
         conn = db_conn()
         if conn is None:
