@@ -27,7 +27,7 @@ def get_quartos_by_id(id):
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
         cur = conn.cursor()
-        cur.execute("SELECT * FROM quartos WHERE id = %s", (id,))
+        cur.execute("SELECT * FROM quartos WHERE id_quarto = %s", (id,))
         row = cur.fetchone()
         cur.close()
         conn.close()
