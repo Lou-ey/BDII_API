@@ -20,11 +20,9 @@ def get_all_users():
         return jsonify({"error": str(e)}), 500
 
 
-@utilizadores_routes.route('/user/get_by_id', methods=['GET'])
-def insert_user():
+@utilizadores_routes.route('/user/<int:id_utilizador>', methods=['GET'])
+def insert_user(id_utilizador):
     try:
-        id = request.args.get('id')  # ir buscar o parametro ao request http
-
 
         conn = db_conn()
         if conn is None:
@@ -33,7 +31,7 @@ def insert_user():
         cur = conn.cursor()
 
         cur.execute("SELECT * FROM users_view WHERE id_utilizador = %s", #chamar o procedimento
-                    (id)) #levar os valores
+                    (id_utilizador)) #levar os valores
         rows = cur.fetchall()
 
         cur.close()
