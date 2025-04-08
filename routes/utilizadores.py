@@ -23,7 +23,6 @@ def get_all_users():
 @utilizadores_routes.route('/user/<int:id_utilizador>', methods=['GET'])
 def insert_user(id_utilizador):
     try:
-
         conn = db_conn()
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
@@ -31,8 +30,8 @@ def insert_user(id_utilizador):
         cur = conn.cursor()
 
         cur.execute("SELECT * FROM users_view WHERE id_utilizador = %s", #chamar o procedimento
-                    (id_utilizador)) #levar os valores
-        rows = cur.fetchall()
+                    (id_utilizador,)) #levar os valores
+        rows = cur.fetchone()
 
         cur.close()
         conn.close()
