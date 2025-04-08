@@ -20,11 +20,21 @@ def get_all_users():
         return jsonify({"error": str(e)}), 500
 
 
+@utilizadores_routes.route('/user/insert', methods=['POST'])
+def insert_user(nome, email, password, nif, telefone, idade, tipo):
+    try :
+        conn = db_conn()
+        if conn is None:
+            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
-#@utilizadores_routes.route('/user/get_by_id', methods=['GET'])
-#def get_user_by_id():
-#    try :
-#        conn = db_conn()
-#        if conn is None:
-#            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
-#            acabar
+        cur = conn.cursor()
+        cur.execute("CALL PROCEDURE insert_user(%s, %s, %s, %s, %s, %s, %s)"   #chamar o procedimento
+                    , (nome, email, password, nif, telefone, idade, tipo))  #passar as variaveis
+
+        cur.close()
+        conn.close()
+        return jsonify({"Utilizador Inserido com sucesso!"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
