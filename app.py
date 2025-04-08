@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 app.register_blueprint(utilizadores_routes)
 
-app.register_blueprint(quarto_routes, url_prefix='/rooms')
+app.register_blueprint(quarto_routes)
 
 
 @app.route('/')

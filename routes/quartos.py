@@ -3,7 +3,7 @@ from db.db import db_conn
 
 quarto_routes = Blueprint('quarto_routes', __name__)
 
-@quarto_routes.route('/quartos')
+@quarto_routes.route('/quartos/get_all')
 def get_quartos():
     try :
         conn = db_conn()
