@@ -11,7 +11,7 @@ def get_img_quartos(id_quarto):
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
         cur = conn.cursor()
-        cur.execute("SELECT * FROM img_quartos WHERE id_quarto = %s", (id_quarto,))
+        cur.execute("SELECT * FROM img_quartos WHERE quartos_id_quarto = %s", (id_quarto,))
         rows = cur.fetchall()
         cur.close()
         conn.close()
