@@ -66,6 +66,7 @@ def insert_user():
 
 
 
+
         conn.commit()
         cur.close()
         conn.close()
