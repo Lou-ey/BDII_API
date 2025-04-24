@@ -65,8 +65,6 @@ def insert_user():
                     (nome, email, password, nif, telefone, idade, tipo)) #levar os valores
 
 
-
-
         conn.commit()
         cur.close()
         conn.close()
