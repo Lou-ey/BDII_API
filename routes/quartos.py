@@ -39,3 +39,57 @@ def get_quartos_by_id(id_quarto):
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@quarto_routes.route('/quartos/insert', methods=['POST'])
+def insert_quarto():
+    try:
+        data = request.get_json()
+
+        numero = data['numero']
+        disponibilidade = data['disponibilidade']
+        capacidade = data['capacidade']
+        image = data['image']
+        preco = data['preco']
+
+        conn = db_conn()
+        if conn is None:
+            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
+
+        cur = conn.cursor()
+        cur.execute("CALL insert_room(%s, %s, %s, %s, %s)",
+                    (numero, disponibilidade, capacidade, image, preco))
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        return jsonify({"message": "Quarto inserido com sucesso!"}), 201
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@quarto_routes.route('/quartos/check_disponibilidade', methods=['GET'])
+def check_disponibilidade():
+    try:
+        data = request.get_json()
+
+        ckeck_in = data['ckeck_in']
+        ckeck_out = data['ckeck_out']
+        id_quarto = data['id_quarto']
+
+        conn = db_conn()
+        if conn is None:
+            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
+
+        cur = conn.cursor()
+        cur.execute("SELECT check_disponibilidade(%s, %s, %s)", (ckeck_in, ckeck_out, id_quarto))
+        row = cur.fetchone()
+        cur.close()
+        conn.close()
+
+        if row:
+            return jsonify({"row": row})
+        else:
+            return jsonify({"error": "Quarto não encontrado."}), 404
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
