@@ -1,4 +1,4 @@
-from flask import request, jsonify, Blueprint
+from flask import Blueprint, jsonify, request
 from db.db import db_conn
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 

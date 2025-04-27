@@ -5,8 +5,6 @@ from routes.quartos import quarto_routes
 from routes.img_quartos import img_quartos_routes
 from routes.reservas import reservas_routes
 from routes.login import login_routes
-import jwt
-import datetime
 
 app = Flask(__name__)
 
