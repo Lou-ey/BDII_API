@@ -3,6 +3,7 @@ from db.db import db_conn
 from routes.utilizadores import utilizadores_routes
 from routes.quartos import quarto_routes
 from routes.img_quartos import img_quartos_routes
+from routes.reservas import reservas_routes
 import jwt
 import datetime
 
@@ -13,6 +14,8 @@ app.register_blueprint(utilizadores_routes)
 app.register_blueprint(quarto_routes)
 
 app.register_blueprint(img_quartos_routes)
+
+app.register_blueprint(reservas_routes)
 
 @app.route('/')
 def home():
