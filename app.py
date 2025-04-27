@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from db.db import db_conn
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 from routes.utilizadores import utilizadores_routes
 from routes.quartos import quarto_routes
 from routes.img_quartos import img_quartos_routes
@@ -23,8 +24,12 @@ def home():
     return "LUME!"
 
 @app.route('/test_db')
+@jwt_required()
 def test_db():
     try:
+        current_user = get_jwt_identity()
+        if current_user['tipo'] != 'admin':
+            return jsonify({"error": "Acesso negado."}), 403
         conn = db_conn()
         return jsonify({"message": "Database connection successful!"}), 200
     except Exception as e:

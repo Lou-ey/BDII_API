@@ -1,9 +1,11 @@
 from flask import Blueprint, jsonify, request
 from db.db import db_conn
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 img_quartos_routes = Blueprint('img_quartos_routes', __name__)
 
 @img_quartos_routes.route('/img_quartos/get_all/<int:id_quarto>', methods=['GET'])
+@jwt_required()
 def get_img_quartos(id_quarto):
     try:
         conn = db_conn()

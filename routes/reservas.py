@@ -1,11 +1,17 @@
 from flask import Blueprint, jsonify, request
 from db.db import db_conn
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 reservas_routes = Blueprint('reservas_routes', __name__)
 
 @reservas_routes.route('/reservas/get_all', methods=['GET'])
+@jwt_required()
 def get_all_reservas():
     try:
+        current_user = get_jwt_identity()
+        if current_user['tipo'] != 'admin':
+            return jsonify({"error": "Acesso negado."}), 403
+
         conn = db_conn()
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
@@ -20,6 +26,7 @@ def get_all_reservas():
         return jsonify({"error": str(e)}), 500
 
 @reservas_routes.route('/reservas/<int:id_reserva>', methods=['GET'])
+@jwt_required()
 def get_reserva_by_id(id_reserva):
     try:
         conn = db_conn()

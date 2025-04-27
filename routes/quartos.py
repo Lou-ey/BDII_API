@@ -1,11 +1,16 @@
 from flask import Blueprint, jsonify, request
 from db.db import db_conn
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 quarto_routes = Blueprint('quarto_routes', __name__)
 
 @quarto_routes.route('/quartos/get_all')
+@jwt_required()
 def get_quartos():
     try :
+        current_user = get_jwt_identity()
+        if current_user['tipo'] != 'admin':
+            return jsonify({"error": "Acesso negado."}), 403
         conn = db_conn()
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
@@ -41,8 +46,12 @@ def get_quartos_by_id(id_quarto):
         return jsonify({"error": str(e)}), 500
 
 @quarto_routes.route('/quartos/insert', methods=['POST'])
+@jwt_required()
 def insert_quarto():
     try:
+        current_user = get_jwt_identity()
+        if current_user['tipo'] != 'admin':
+            return jsonify({"error": "Acesso negado."}), 403
         data = request.get_json()
 
         numero = data['numero']

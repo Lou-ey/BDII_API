@@ -1,11 +1,16 @@
 from flask import Blueprint, jsonify, request
 from db.db import db_conn
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 utilizadores_routes = Blueprint('utilizadores_routes', __name__)
 
 @utilizadores_routes.route('/user/get_all', methods=['GET'])
+@jwt_required()
 def get_all_users():
     try :
+        current_user = get_jwt_identity()
+        if current_user['tipo'] != 'admin':
+            return jsonify({"error": "Acesso negado."}), 403
         conn = db_conn()
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
