@@ -42,7 +42,7 @@ def get_user_by_id(id_utilizador):
         return jsonify({"error": str(e)}), 500
 
 
-@utilizadores_routes.route('/user/insert', methods=['POST'])
+@utilizadores_routes.route('/auth/register', methods=['POST'])
 def insert_user():
     try:
         data = request.get_json()  #ir buscar o body ao request http
