@@ -23,5 +23,3 @@ def get_img_quartos(id_quarto):
         return jsonify({"Row": rows})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-@img_
