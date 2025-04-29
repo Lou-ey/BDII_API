@@ -20,8 +20,9 @@ def login():
         return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
     cur = conn.cursor()
-    cur.execute("SELECT * FROM utilizadores WHERE email = %s AND password = %s", (username, password))
+    cur.execute("SELECT * FROM utilizadores WHERE email = %s AND password = crypt(%s, password)", (email, password))
     user = cur.fetchone()
+
     cur.close()
     conn.close()
 
