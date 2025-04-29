@@ -72,3 +72,29 @@ def insert_reserva():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@reservas_routes.route('/reservas/<int:id_reserva>/cancel', methods=['PUT'])
+@jwt_required()
+def cancel_reservation(id_reserva):
+    try:
+        current_user = get_jwt_identity()
+        db = db_conn()
+        if db is None:
+            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
+        cur = db.cursor()
+        cur.execute("SELECT utilizadores_id_cliente FROM reservas_view WHERE id_reserva = %s", (id_reserva,))
+        user_id = cur.fetchone()
+        db.commit()
+
+        if user_id is None:
+            return jsonify({"error": "Reserva não encontrada."}), 404
+        if current_user['id'] != user_id[0]:
+            return jsonify({"error": "Acesso negado."}), 403
+
+        cur.execute("CALL cancel_reservation(%s)", (id_reserva,))
+        db.commit()
+        cur.close()
+        db.close()
+        return jsonify({"message": "Reserva cancelada com sucesso!"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

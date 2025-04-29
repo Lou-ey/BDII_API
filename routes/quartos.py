@@ -45,6 +45,31 @@ def get_quartos_by_id(id_quarto):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@quarto_routes.route('/quartos/update/<int:id_quarto>', methods=['PUT'])
+@jwt_required()
+def update_quarto(id_quarto):
+    try:
+        current_user = get_jwt_identity()
+        if current_user['tipo'] != 'admin':
+            return jsonify({"error": "Acesso negado."}), 403
+
+        data = request.get_json()
+
+        parametro_a_alterar = data['parametro_a_alterar']
+        novo_valor = data['novo_valor']
+
+        conn = db_conn()
+        if conn is None:
+            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
+        cur = conn.cursor()
+        cur.execute("CALL update_room(%s, %s, %s)", (id_quarto, parametro_a_alterar, novo_valor))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return jsonify({"message": "Quarto atualizado com sucesso!"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @quarto_routes.route('/quartos/insert', methods=['POST'])
 @jwt_required()
 def insert_quarto():

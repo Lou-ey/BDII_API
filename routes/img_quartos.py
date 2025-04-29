@@ -8,6 +8,9 @@ img_quartos_routes = Blueprint('img_quartos_routes', __name__)
 @jwt_required()
 def get_img_quartos(id_quarto):
     try:
+        current_user = get_jwt_identity()
+        if current_user['tipo'] != 'admin':
+            return jsonify({"error": "Acesso negado."}), 403
         conn = db_conn()
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
@@ -20,3 +23,5 @@ def get_img_quartos(id_quarto):
         return jsonify({"Row": rows})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@img_
