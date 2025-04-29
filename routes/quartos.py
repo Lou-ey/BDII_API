@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from db.db import db_conn
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 quarto_routes = Blueprint('quarto_routes', __name__)
 
@@ -9,7 +9,9 @@ quarto_routes = Blueprint('quarto_routes', __name__)
 def get_quartos():
     try :
         current_user = get_jwt_identity()
-        if current_user['tipo'] != 'admin':
+        claims = get_jwt()
+        if claims['tipo'] != 'admin':
+        #if current_user['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
         conn = db_conn()
         if conn is None:
