@@ -28,8 +28,10 @@ def get_all_users():
 
 
 @utilizadores_routes.route('/user/<int:id_utilizador>', methods=['GET'])
+@jwt_required()
 def get_user_by_id(id_utilizador):
     try:
+        current_user = get_jwt_identity()
         conn = db_conn()
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
@@ -50,8 +52,14 @@ def get_user_by_id(id_utilizador):
 
 
 @utilizadores_routes.route('/auth/register', methods=['POST'])
+@jwt_required()
 def insert_user():
     try:
+        current_user = get_jwt_identity()
+        claims = get_jwt()
+        if claims['tipo'] != 'admin':
+            return jsonify({"error": "Acesso negado."}), 403
+
         data = request.get_json()  #ir buscar o body ao request http
 
         nome = data.get('nome')  #extrair variaveis

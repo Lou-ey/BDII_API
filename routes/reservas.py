@@ -87,7 +87,8 @@ def cancel_reservation(id_reserva):
 
         if user_id is None:
             return jsonify({"error": "Reserva não encontrada."}), 404
-        if current_user['id_utilizador'] != user_id[0]:
+
+        if current_user != user_id[0]:
             return jsonify({"error": "Acesso negado."}), 403
 
         cur.execute("CALL cancel_reservation(%s)", (id_reserva,))
