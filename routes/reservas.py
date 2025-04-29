@@ -1,11 +1,8 @@
 from flask import Blueprint, jsonify, request
 from db.db import db_conn
-from flask_jwt_extended import jwt_required, get_jwt_identity, JWTManager
-from app import app
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 reservas_routes = Blueprint('reservas_routes', __name__)
-
-jwt = JWTManager(app)
 
 @reservas_routes.route('/reservas/get_all', methods=['GET'])
 @jwt_required()
