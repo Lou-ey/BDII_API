@@ -27,14 +27,16 @@ def home():
     return "LUME!"
 
 @app.route('/test_db', methods=['GET'])
-@jwt_required()
+
 def test_db():
     try:
-        current_user = get_jwt_identity()
-        if current_user['tipo'] != 'admin':
-            return jsonify({"error": "Acesso negado."}), 403
+        #current_user = get_jwt_identity()
+        #if current_user['tipo'] != 'admin':
+        #    return jsonify({"error": "Acesso negado."}), 403
         conn = db_conn()
-        return jsonify({"message": "Database connection successful!"}), 200
+        if conn:
+            return jsonify({"message": "Database connection successful!"}), 200
+
     except Exception as e:
         return jsonify({"message": f"Error connecting to database: {str(e)}"}), 500
 
