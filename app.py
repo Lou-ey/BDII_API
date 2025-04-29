@@ -6,6 +6,7 @@ from routes.quartos import quarto_routes
 from routes.img_quartos import img_quartos_routes
 from routes.reservas import reservas_routes
 from routes.login import login_routes
+from routes.transacoes import trans_routes
 
 app = Flask(__name__)
 
@@ -18,6 +19,8 @@ app.register_blueprint(img_quartos_routes)
 app.register_blueprint(reservas_routes)
 
 app.register_blueprint(login_routes)
+
+app.register_blueprint(trans_routes)
 
 @app.route('/')
 def home():
