@@ -26,7 +26,7 @@ app.register_blueprint(trans_routes)
 def home():
     return "LUME!"
 
-@app.route('/test_db')
+@app.route('/test_db', methods=['GET'])
 @jwt_required()
 def test_db():
     try:
