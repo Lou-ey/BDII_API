@@ -10,6 +10,11 @@ from routes.transacoes import trans_routes
 
 app = Flask(__name__)
 
+app.config['JWT_SECRET_KEY'] = 'ac7caF157DAB' # secret key para codificar os tokens JWT
+app.config['JWT_TOKEN_LOCATION'] = ['headers'] # onde o token JWT será armazenado
+
+jwt = JWTManager(app) # Inicia o JWTManager com a aplicação Flask
+
 app.register_blueprint(utilizadores_routes)
 
 app.register_blueprint(quarto_routes)
@@ -27,7 +32,6 @@ def home():
     return "LUME!"
 
 @app.route('/test_db', methods=['GET'])
-
 def test_db():
     try:
         #current_user = get_jwt_identity()
