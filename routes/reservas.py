@@ -97,8 +97,3 @@ def cancel_reservation(id_reserva):
         return jsonify({"message": "Reserva cancelada com sucesso!"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    finally:
-        if cur:
-            cur.close()
-        if db:
-            db.close()
