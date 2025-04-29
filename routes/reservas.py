@@ -1,8 +1,11 @@
 from flask import Blueprint, jsonify, request
 from db.db import db_conn
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, JWTManager
+from app import app
 
 reservas_routes = Blueprint('reservas_routes', __name__)
+
+jwt = JWTManager(app)
 
 @reservas_routes.route('/reservas/get_all', methods=['GET'])
 @jwt_required()
@@ -84,11 +87,10 @@ def cancel_reservation(id_reserva):
         cur = db.cursor()
         cur.execute("SELECT utilizadores_id_cliente FROM reservas_view WHERE id_reserva = %s", (id_reserva,))
         user_id = cur.fetchone()
-        db.commit()
 
         if user_id is None:
             return jsonify({"error": "Reserva não encontrada."}), 404
-        if current_user['id'] != user_id[0]:
+        if current_user['id_utilizador'] != user_id[0]:
             return jsonify({"error": "Acesso negado."}), 403
 
         cur.execute("CALL cancel_reservation(%s)", (id_reserva,))
@@ -98,3 +100,8 @@ def cancel_reservation(id_reserva):
         return jsonify({"message": "Reserva cancelada com sucesso!"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    finally:
+        if cur:
+            cur.close()
+        if db:
+            db.close()
