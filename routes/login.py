@@ -26,11 +26,15 @@ def login():
     conn.close()
 
     if user:
-        access_token = create_access_token(identity={
-            "id_utilizador": user[0],
-            "email": user[2],
-            "tipo": user[7]
-        }, expires_delta=timedelta(hours=1))
+        # nao devem ser usados dicionarios, mas sim listas pois estava a causar problemas
+        access_token = create_access_token(
+            identity=str(user[0]), # apenas o id do utilizador como identity
+            additional_claims={ # aqui vao os dados adicionais que queremos guardar no token
+                "email": user[2],
+                "tipo": user[7]
+            },
+            expires_delta=timedelta(hours=1)
+        )
         return jsonify({"access_token": access_token, "user": user[1], "tipo": user[7], "id_utilizador": user[0]}), 200
     else:
         return jsonify({"msg": "Bad username or password"}), 401
