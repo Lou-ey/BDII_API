@@ -5,8 +5,7 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 
 login_routes = Blueprint('login_routes', __name__)
 
-@login_routes.route('/auth/login', methods=['GET', 'POST'])
-@jwt_required()
+@login_routes.route('/auth/login', methods=['POST'])
 def login():
     data = request.get_json()
     email = data.get('email')
