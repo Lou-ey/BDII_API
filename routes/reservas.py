@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from db.db import db_conn
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 reservas_routes = Blueprint('reservas_routes', __name__)
 
@@ -96,5 +96,36 @@ def cancel_reservation(id_reserva):
         cur.close()
         db.close()
         return jsonify({"message": "Reserva cancelada com sucesso!"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@reservas_routes.route('/reserva/reserva_by_year', methods=['GET'])
+@jwt_required()
+def get_reserva_by_year():
+    try:
+        claims = get_jwt()
+        if claims["tipo"] != "admin":
+            return jsonify({"error": "Acesso negado."}), 403
+
+        ano = request.args.get('ano', default=None, type=int)
+        if not ano:
+            return jsonify({"error": "Parâmetro 'ano' em falta."}), 400
+
+        data_inicio = f"{ano}-01-01"
+        data_fim = f"{ano + 1}-01-01"
+
+        conn = db_conn()
+        if conn is None:
+            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
+
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT * FROM reservas 
+            WHERE checkin >= %s AND checkin < %s
+        """, (data_inicio, data_fim))
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        return jsonify({"Row": rows})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
