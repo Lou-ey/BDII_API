@@ -54,7 +54,6 @@ def update_quarto(id_quarto):
         current_user = get_jwt_identity()
         claims = get_jwt()
         if claims['tipo'] != 'admin':
-            # if current_user['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
 
         data = request.get_json()
