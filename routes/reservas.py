@@ -10,7 +10,7 @@ def get_all_reservas():
     try:
         current_user = get_jwt_identity()
         claims = get_jwt()
-        if claims['tipo'] != 'admin' or claims['tipo'] != 'rececionista':
+        if claims['tipo'] != 'admin' and claims['tipo'] != 'rececionista':
             return jsonify({"error": "Acesso negado."}), 403
 
         conn = db_conn()
@@ -33,7 +33,7 @@ def get_reserva_by_id(id_reserva):
     try:
         current_user = get_jwt_identity()
         claims = get_jwt()
-        if claims['tipo'] != 'admin':
+        if claims['tipo'] != 'admin' and claims['tipo'] != 'rececionista':
             return jsonify({"error": f"Acesso negado. Com o tipo {claims['tipo']} "}), 403
         conn = db_conn()
         #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
@@ -57,7 +57,7 @@ def insert_reserva():
     try:
         current_user = get_jwt_identity()
         claims = get_jwt()
-        if claims['tipo'] != 'rececionista' or claims['tipo'] != 'admin':
+        if claims['tipo'] != 'rececionista' and claims['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
         data = request.get_json()
 
@@ -92,7 +92,7 @@ def cancel_reservation(id_reserva):
     try:
         current_user = get_jwt_identity()
         claims = get_jwt()
-        if claims['tipo'] != 'admin' or claims['tipo'] != 'rececionista':
+        if claims['tipo'] != 'admin' and claims['tipo'] != 'rececionista':
             return jsonify({"error": "Acesso negado."}), 403
         db = db_conn()
         #db = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd de forma dinamica dependendo do tipo de utilizador
