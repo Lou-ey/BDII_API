@@ -23,7 +23,7 @@ def pay(id_reserva):
 
         cur = db.cursor()
         cur.execute("SELECT utilizadores_id_cliente FROM reservas WHERE id_reserva = %s", (id_reserva,))
-        user_id = cur.fetchone()[9]
+        user_id = cur.fetchone()[0]
         if current_user != user_id:
             return jsonify({"error": f"Acesso negado. Com o id: {current_user}"}), 403
 
