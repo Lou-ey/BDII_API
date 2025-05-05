@@ -51,7 +51,7 @@ def get_all_transacoes():
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
         cur = conn.cursor()
-        cur.execute("SELECT * FROM transacoes_view")
+        cur.execute("SELECT * FROM transacoes")
         rows = cur.fetchall()
         cur.close()
         conn.close()
