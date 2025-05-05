@@ -105,8 +105,8 @@ def cancel_reservation(id_reserva):
         if user_id is None:
             return jsonify({"error": "Reserva não encontrada."}), 404
 
-        if current_user != user_id[0]:
-            return jsonify({"error": "Acesso negado."}), 403
+        #if current_user != user_id[0]:  #só a pessoa da reserva pode cancelar
+         #   return jsonify({"error": "Acesso negado."}), 403
 
         cur.execute("CALL cancel_reservation(%s)", (id_reserva,))
         db.commit()
