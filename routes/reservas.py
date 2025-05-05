@@ -49,8 +49,8 @@ def insert_reserva():
     try:
         data = request.get_json()
 
-        ckeck_in = data.get('ckeck_in')
-        ckeck_out = data.get('ckeck_out')
+        check_in = data.get('check_in')
+        check_out = data.get('check_out')
         pessoas = data.get('pessoas')
         cancelado = data.get('cancelado')
         met_pagamento = data.get('met_pagamento')
@@ -63,7 +63,7 @@ def insert_reserva():
 
         cur = conn.cursor()
         cur.execute("CALL insert_reservation(%s, %s, %s, %s, %s, %s, %s)",
-                    (ckeck_in, ckeck_out, pessoas, cancelado, met_pagamento, id_cliente, id_quarto))
+                    (check_in, check_out, pessoas, cancelado, met_pagamento, id_cliente, id_quarto))
         conn.commit()
         cur.close()
         conn.close()
