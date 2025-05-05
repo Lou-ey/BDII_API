@@ -52,7 +52,9 @@ def get_quartos_by_id(id_quarto):
 def update_quarto(id_quarto):
     try:
         current_user = get_jwt_identity()
-        if current_user['tipo'] != 'admin':
+        claims = get_jwt()
+        if claims['tipo'] != 'admin':
+            # if current_user['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
 
         data = request.get_json()
@@ -79,6 +81,7 @@ def insert_quarto():
         current_user = get_jwt_identity()
         if current_user['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
+
         data = request.get_json()
 
         numero = data['numero']
