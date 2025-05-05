@@ -9,10 +9,12 @@ reservas_routes = Blueprint('reservas_routes', __name__)
 def get_all_reservas():
     try:
         current_user = get_jwt_identity()
-        if current_user['tipo'] != 'admin':
+        claims = get_jwt()
+        if claims['tipo'] != 'admin' or claims['tipo'] != 'rececionista':
             return jsonify({"error": "Acesso negado."}), 403
 
         conn = db_conn()
+        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -29,7 +31,12 @@ def get_all_reservas():
 @jwt_required()
 def get_reserva_by_id(id_reserva):
     try:
+        current_user = get_jwt_identity()
+        claims = get_jwt()
+        if claims['tipo'] != 'admin' or claims['tipo'] != 'rececionista':
+            return jsonify({"error": "Acesso negado."}), 403
         conn = db_conn()
+        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -45,8 +52,13 @@ def get_reserva_by_id(id_reserva):
         return jsonify({"error": str(e)}), 500
 
 @reservas_routes.route('/reservas/insert', methods=['POST'])
+@jwt_required()
 def insert_reserva():
     try:
+        current_user = get_jwt_identity()
+        claims = get_jwt()
+        if claims['tipo'] != 'rececionista' or claims['tipo'] != 'admin':
+            return jsonify({"error": "Acesso negado."}), 403
         data = request.get_json()
 
         check_in = data.get('check_in')
@@ -58,6 +70,7 @@ def insert_reserva():
         id_quarto = data.get('id_quarto')
 
         conn = db_conn()
+        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -78,7 +91,11 @@ def insert_reserva():
 def cancel_reservation(id_reserva):
     try:
         current_user = get_jwt_identity()
+        claims = get_jwt()
+        if claims['tipo'] != 'admin' or claims['tipo'] != 'rececionista':
+            return jsonify({"error": "Acesso negado."}), 403
         db = db_conn()
+        #db = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd de forma dinamica dependendo do tipo de utilizador
         if db is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
         cur = db.cursor()
@@ -115,6 +132,7 @@ def get_reserva_by_year():
         data_fim = f"{ano + 1}-01-01"
 
         conn = db_conn()
+        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao ha bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 

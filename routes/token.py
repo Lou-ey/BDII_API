@@ -1,20 +1,26 @@
 import os
 import datetime
+from os import access
+
 import jwt
 from flask import Flask, jsonify, Blueprint
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from db.db import db_conn
 
 token_routes = Blueprint('token_routes', __name__)
 
 secret = os.getenv('secret')
 
 @token_routes.route('/token')
+@jwt_required()
 def token():
-    tokken = jwt.JWT.encode(
-        payload={"user_id": 1, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=10)},
-        key=secret,
-        alg="HS256",
-    )
-    return jsonify({"token": tokken})
+    try:
+        # Get the current user from the JWT token
+        current_user = get_jwt_identity()
+        if current_user['tipo'] != 'admin':
+            return jsonify({"error": "Acesso negado."}), 403
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @token_routes.route('/decode_token')
 def decode_token(tokken):

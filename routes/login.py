@@ -1,6 +1,6 @@
 from datetime import timedelta
 from flask import Blueprint, jsonify, request
-from db.db import db_conn
+from db.db import db_conn, db_conn_default
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 login_routes = Blueprint('login_routes', __name__)
@@ -14,6 +14,7 @@ def login():
     if not email or not password:
         return jsonify({"msg": "Missing email or password"}), 400
 
+    #conn = db_conn_default() # Usar para conexão com a base de dados default apenas destinado para autenticação
     conn = db_conn()
     if conn is None:
         return jsonify({"error": "Erro ao conectar à base de dados."}), 500

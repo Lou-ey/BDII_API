@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from db.db import db_conn
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 trans_routes = Blueprint('trans_routes', __name__)
 @trans_routes.route('/reservas/<int:id_reserva>/pagar', methods=['POST'])
@@ -8,9 +8,15 @@ trans_routes = Blueprint('trans_routes', __name__)
 def pay(id_reserva):
     try:
         current_user = get_jwt_identity()
+        claims = get_jwt()
+        if claims['tipo'] != 'cliente':
+            return jsonify({"error": "Acesso negado."}), 403
+
         data = request.get_json()
         met_pagamento = data.get('met_pagamento')
+
         db = db_conn()
+        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if db is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 

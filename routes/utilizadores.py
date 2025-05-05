@@ -13,7 +13,9 @@ def get_all_users():
         if claims['tipo'] != 'admin':
         #if current_user['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
+
         conn = db_conn()
+        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -32,7 +34,13 @@ def get_all_users():
 def get_user_by_id(id_utilizador):
     try:
         current_user = get_jwt_identity()
+        claims = get_jwt()
+        if claims['tipo'] != 'admin':
+            #if current_user['tipo'] != 'admin':
+            return jsonify({"error": "Acesso negado."}), 403
+
         conn = db_conn()
+        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -54,10 +62,10 @@ def get_user_by_id(id_utilizador):
 @utilizadores_routes.route('/auth/register', methods=['POST'])
 def insert_user():
     try:
-        #current_user = get_jwt_identity()
-        #claims = get_jwt()
-        #if claims['tipo'] != 'admin':
-        #    return jsonify({"error": "Acesso negado."}), 403
+        current_user = get_jwt_identity()
+        claims = get_jwt()
+        if claims['tipo'] != 'admin':
+            return jsonify({"error": "Acesso negado."}), 403
 
         data = request.get_json()  #ir buscar o body ao request http
 
@@ -70,6 +78,8 @@ def insert_user():
         tipo = data.get('tipo')
 
         conn = db_conn()
+        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
