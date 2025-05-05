@@ -52,7 +52,6 @@ def get_user_by_id(id_utilizador):
 
 
 @utilizadores_routes.route('/auth/register', methods=['POST'])
-@jwt_required()
 def insert_user():
     try:
         current_user = get_jwt_identity()
