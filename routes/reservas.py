@@ -52,8 +52,8 @@ def insert_reserva():
         check_in = data.get('check_in')
         check_out = data.get('check_out')
         pessoas = data.get('pessoas')
-        cancelado = data.get('cancelado')
-        met_pagamento = data.get('met_pagamento')
+        #cancelado = data.get('cancelado') Quando é criado o valor default é falso
+        #met_pagamento = data.get('met_pagamento') Quando é criado o valor default é falso
         id_cliente = data.get('id_cliente')
         id_quarto = data.get('id_quarto')
 
@@ -62,8 +62,8 @@ def insert_reserva():
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
         cur = conn.cursor()
-        cur.execute("CALL insert_reservation(%s, %s, %s, %s, %s, %s, %s)",
-                    (check_in, check_out, pessoas, cancelado, met_pagamento, id_cliente, id_quarto))
+        cur.execute("CALL insert_reservation(%s, %s, %s, %s, %s)",
+                    (check_in, check_out, pessoas, id_cliente, id_quarto))
         conn.commit()
         cur.close()
         conn.close()
