@@ -115,14 +115,14 @@ def insert_quarto():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@quarto_routes.route('/quartos/check_disponibilidade', methods=['POST'])
-def check_disponibilidade():
+@quarto_routes.route('/quartos/check_disponibilidade/<int:id_quarto>', methods=['POST'])
+def check_disponibilidade(id_quarto):
     try:
         data = request.get_json()
 
         ckeck_in = data['ckeck_in']
         ckeck_out = data['ckeck_out']
-        id_quarto = data['id_quarto']
+        #id_quarto = data['id_quarto']
 
         conn = db_conn()
         if conn is None:
