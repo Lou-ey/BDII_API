@@ -116,7 +116,7 @@ def cancel_reservation(id_reserva):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@reservas_routes.route('/reserva/reserva_by_year', methods=['GET'])
+@reservas_routes.route('/reservas/reserva_by_year', methods=['GET'])
 @jwt_required()
 def get_reserva_by_year():
     try:
@@ -124,7 +124,7 @@ def get_reserva_by_year():
         if claims["tipo"] != "admin":
             return jsonify({"error": "Acesso negado."}), 403
 
-        ano = request.args.get('ano', default=None, type=int)
+        ano = request.args.get('ano', default=None, type=int) # Obtem o ano do url atraves do ?ano=2024
         if not ano:
             return jsonify({"error": "Parâmetro 'ano' em falta."}), 400
 

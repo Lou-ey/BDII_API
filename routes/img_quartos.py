@@ -29,3 +29,32 @@ def get_img_quartos(id_quarto):
         return jsonify({"Row": rows})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# inserir imagem
+@img_quartos_routes.route('/img_quartos/insert/<int:id_quarto>', methods=['POST'])
+@jwt_required()
+def insert_img_quarto(id_quarto):
+    try:
+        current_user = get_jwt_identity()
+        claims = get_jwt()
+        if claims['tipo'] != 'admin':
+            #if current_user['tipo'] != 'admin':
+            return jsonify({"error": "Acesso negado."}), 403
+
+        conn = db_conn()
+        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+
+        if conn is None:
+            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
+
+        cur = conn.cursor()
+        data = request.get_json()
+        img_base64 = data.get('img_base64')
+        img = bytes(img_base64, 'utf-8')
+        cur.execute("INSERT INTO img_quartos (img, quartos_id_quarto) VALUES (%s, %s)", (img, id_quarto))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return jsonify({"message": "Imagem inserida com sucesso."}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

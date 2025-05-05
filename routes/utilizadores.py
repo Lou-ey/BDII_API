@@ -92,6 +92,4 @@ def insert_user():
         return jsonify({"message": "Utilizador inserido com sucesso!"}), 200
 
     except Exception as e:
-        return jsonify({"Erro ao inserir Utilizador, error": str(e)}), 500
-
-
+        return jsonify({"error": str(e)}), 500
