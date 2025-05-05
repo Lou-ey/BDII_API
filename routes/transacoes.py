@@ -25,7 +25,8 @@ def pay(id_reserva):
         cur.execute("SELECT utilizadores_id_cliente FROM reservas WHERE id_reserva = %s", (id_reserva,))
         user_id = cur.fetchone()[0]
         if current_user != user_id:
-            return jsonify({"error": f"Acesso negado. Com o id: {current_user} e o id da reserva e: {user_id}"}), 403
+            return jsonify({"debug": f"{type(current_user)} {type(user_id)}"}), 500
+            #return jsonify({"error": f"Acesso negado. Com o id: {current_user} e o id da reserva e: {user_id}"}), 403
 
         cur.execute("CALL pay_reserva(%s, %s)", (id_reserva, met_pagamento))
         db.commit()
