@@ -34,7 +34,7 @@ def get_reserva_by_id(id_reserva):
         current_user = get_jwt_identity()
         claims = get_jwt()
         if claims['tipo'] != 'admin' or claims['tipo'] != 'rececionista':
-            return jsonify({"error": "Acesso negado."}), 403
+            return jsonify({"error": f"Acesso negado. Com o tipo {claims['tipo']} "}), 403
         conn = db_conn()
         #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
