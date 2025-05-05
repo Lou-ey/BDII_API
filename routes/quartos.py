@@ -87,7 +87,7 @@ def insert_quarto():
         numero = data['numero']
         disponibilidade = data['disponibilidade']
         capacidade = data['capacidade']
-        image = data['image']
+        #image = data['image']
         preco = data['preco']
 
         conn = db_conn()
@@ -95,8 +95,8 @@ def insert_quarto():
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
         cur = conn.cursor()
-        cur.execute("CALL insert_room(%s, %s, %s, %s, %s)",
-                    (numero, disponibilidade, capacidade, image, preco))
+        cur.execute("CALL insert_room(%s, %s, %s, %s)",
+                    (numero, disponibilidade, capacidade, preco))
         conn.commit()
         cur.close()
         conn.close()
