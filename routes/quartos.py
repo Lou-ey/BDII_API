@@ -115,7 +115,7 @@ def insert_quarto():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@quarto_routes.route('/quartos/check_disponibilidade', methods=['GET'])
+@quarto_routes.route('/quartos/check_disponibilidade', methods=['POST'])
 def check_disponibilidade():
     try:
         data = request.get_json()
