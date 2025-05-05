@@ -4,15 +4,16 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 img_quartos_routes = Blueprint('img_quartos_routes', __name__)
 
+#ir buscar todas as imagens de um quarto (qualquer pessoa pode ver as imagens)
 @img_quartos_routes.route('/img_quartos/get_all/<int:id_quarto>', methods=['GET'])
-@jwt_required()
+#@jwt_required()
 def get_img_quartos(id_quarto):
     try:
-        current_user = get_jwt_identity()
-        claims = get_jwt()
-        if claims['tipo'] != 'admin':
+        #current_user = get_jwt_identity()
+        #claims = get_jwt()
+       # if claims['tipo'] != 'admin':
             #if current_user['tipo'] != 'admin':
-            return jsonify({"error": "Acesso negado."}), 403
+          #  return jsonify({"error": "Acesso negado."}), 403
 
         conn = db_conn()
         #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
