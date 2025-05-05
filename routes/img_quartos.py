@@ -50,6 +50,10 @@ def insert_img_quarto(id_quarto):
         cur = conn.cursor()
         data = request.get_json()
         img_base64 = data.get('img_base64')
+
+        if not img_base64:
+            return jsonify({"error": "Imagem não fornecida."}), 400
+
         img = bytes(img_base64, 'utf-8')
         cur.execute("INSERT INTO img_quartos (img, quartos_id_quarto) VALUES (%s, %s)", (img, id_quarto))
         conn.commit()
