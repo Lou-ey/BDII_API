@@ -22,7 +22,7 @@ def pay(id_reserva):
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
         cur = db.cursor()
-        cur.execute("SELECT utilizadores_id_cliente FROM reservas WHERE id_reserva = %s", (id_reserva,))
+        cur.execute("SELECT utilizadores_id_cliente FROM reservas_view WHERE id_reserva = %s", (id_reserva,))
         user_id = cur.fetchone()[0]
         current_user = int(current_user) # Converter para inteiro
         if current_user != user_id:
