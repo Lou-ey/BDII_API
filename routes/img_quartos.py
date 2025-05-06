@@ -26,7 +26,10 @@ def get_img_quartos(id_quarto):
         rows = cur.fetchall()
         cur.close()
         conn.close()
-        return jsonify({"Row": rows})
+        if not rows:
+            return jsonify({"error": "Nenhuma imagem encontrada para este quarto."}), 404
+        else:
+            return jsonify({"rows": rows}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
