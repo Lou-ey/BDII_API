@@ -26,11 +26,13 @@ def get_img_quartos(id_quarto):
         rows = cur.fetchall()
 
         for row in rows: #retirar os \n
-            row['img_base64'] = row['img_base64'].replace('\n', '')
-        cur.close()
+            #row['img_base64'] = row['img_base64'].replace('\n', '')
+            row[1] = row[1].replace('\n', '')
 
         cur.close()
+        cur.close()
         conn.close()
+
         if not rows:
             return jsonify({"error": "Nenhuma imagem encontrada para este quarto."}), 404
         else:
