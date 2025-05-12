@@ -25,9 +25,12 @@ def get_img_quartos(id_quarto):
         cur.execute("SELECT id_img, encode(img, 'base64') AS img_base64 FROM img_quartos WHERE quartos_id_quarto = %s", (id_quarto,))
         rows = cur.fetchall()
 
-        for row in rows: #retirar os \n
-            #row['img_base64'] = row['img_base64'].replace('\n', '')
-            row[1] = row[1].replace('\n', '')
+        images = []
+        for row in rows:
+            images.append({
+                "id_img": row[0],
+                "img_base64": row[1].replace('\n', '')
+            })
 
         cur.close()
         cur.close()
@@ -36,7 +39,7 @@ def get_img_quartos(id_quarto):
         if not rows:
             return jsonify({"error": "Nenhuma imagem encontrada para este quarto."}), 404
         else:
-            return jsonify({"rows": rows}), 200
+            return jsonify({"rows": images}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
