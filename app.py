@@ -7,6 +7,8 @@ from routes.img_quartos import img_quartos_routes
 from routes.reservas import reservas_routes
 from routes.login import login_routes
 from routes.transacoes import trans_routes
+import os
+import psycopg2
 
 app = Flask(__name__)
 
@@ -32,12 +34,37 @@ def home():
     return "LUME!"
 
 @app.route('/test_db', methods=['GET'])
-#@jwt_required()
 def test_db():
+    user_type = "admin"
+    db_users = {
+        "admin": {
+            "user": os.getenv("ADMIN_USER"),
+            "password": os.getenv("ADMIN_PASSWORD")
+        },
+        "rececionista": {
+            "user": os.getenv("RECECIONISTA_USER"),
+            "password": os.getenv("RECECIONISTA_PASSWORD")
+        },
+        "cliente": {
+            "user": os.getenv("CLIENTE_USER"),
+            "password": os.getenv("CLIENTE_PASSWORD")
+        }
+    }
+
+    user = db_users[user_type]["user"]
+    password = db_users[user_type]["password"]
+    host = os.getenv("DB_HOST")
+    port = os.getenv("DB_PORT")
+    dbname = os.getenv("DB_NAME")
+
     try:
-        #current_user = get_jwt_identity()
-        #claims = get_jwt()
-        conn = db_conn("admin")
+        conn = psycopg2.connect(
+            dbname=dbname,
+            user=user,
+            password=password,
+            host=host,
+            port=port
+        )
         if conn:
             cur = conn.cursor()
             cur.execute("SELECT current_user;")
@@ -48,11 +75,16 @@ def test_db():
                 "message": "Database connection successful!",
                 "connected_user": db_user
             }), 200
-        else:
-            return jsonify({"error": "Não foi possível conectar à base de dados."}), 500
-
     except Exception as e:
-        return jsonify({"message": f"Erro ao conectar à base de dados: {str(e)}"}), 500
+        return jsonify({
+            "message": f"Erro ao conectar à base de dados: {str(e)}",
+            "credenciais_usadas": {
+                "user": user,
+                "host": host,
+                "dbname": dbname
+            }
+        }), 500
+
 
 
 
