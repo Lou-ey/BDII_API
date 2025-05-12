@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from db.db import db_conn
-from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity, get_jwt
 from routes.utilizadores import utilizadores_routes
 from routes.quartos import quarto_routes
 from routes.img_quartos import img_quartos_routes
@@ -32,17 +32,28 @@ def home():
     return "LUME!"
 
 @app.route('/test_db', methods=['GET'])
+@jwt_required()
 def test_db():
     try:
-        #current_user = get_jwt_identity()
-        #if current_user['tipo'] != 'admin':
-        #    return jsonify({"error": "Acesso negado."}), 403
-        conn = db_conn()
+        current_user = get_jwt_identity()
+        claims = get_jwt()
+        conn = db_conn(claims['tipo'])
         if conn:
-            return jsonify({"message": "Database connection successful!"}), 200
+            cur = conn.cursor()
+            cur.execute("SELECT current_user;")
+            db_user = cur.fetchone()[0]
+            cur.close()
+            conn.close()
+            return jsonify({
+                "message": "Database connection successful!",
+                "connected_user": db_user
+            }), 200
+        else:
+            return jsonify({"error": "Não foi possível conectar à base de dados."}), 500
 
     except Exception as e:
-        return jsonify({"message": f"Error connecting to database: {str(e)}"}), 500
+        return jsonify({"message": f"Erro ao conectar à base de dados: {str(e)}"}), 500
+
 
 
 
