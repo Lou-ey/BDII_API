@@ -147,3 +147,26 @@ def get_reserva_by_year():
         return jsonify({"Row": rows})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@reservas_routes.route('/reservas/get_active_reservations', methods=['GET'])
+@jwt_required()
+def get_active_reservations():
+    try:
+        current_user = get_jwt_identity()
+        claims = get_jwt()
+        if claims["tipo"] != "admin" and claims["tipo"] != "rececionista":
+            return jsonify({"error": "Acesso negado."}), 403
+
+        conn = db_conn()
+        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao ha bd dinamica dependendo do tipo de utilizador
+        if conn is None:
+            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
+
+        cur = conn.cursor()
+        cur.execute("CALL get_active_reservations(%s)", (current_user,))
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        return jsonify({"Row": rows})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
