@@ -169,7 +169,7 @@ def get_active_reservations():
             return jsonify({"Row": rows})
         elif claims["tipo"] == "cliente":
             cur = conn.cursor()
-            cur.execute("""SELECT * FROM get_active_reservations_by_user(%s)""", (current_user,))
+            cur.execute("""SELECT * FROM get_active_reservations(%s)""", (current_user,))
             rows = cur.fetchall()
             cur.close()
             conn.close()
