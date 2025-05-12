@@ -14,8 +14,8 @@ def login():
     if not email or not password:
         return jsonify({"msg": "Missing email or password"}), 400
 
-    #conn = db_conn_default() # Usar para conexão com a base de dados default apenas destinado para autenticação
-    conn = db_conn()
+    conn = db_conn_default() # Usar para conexão com a base de dados default apenas destinado para autenticação
+    #conn = db_conn()
     if conn is None:
         return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 

@@ -1,6 +1,6 @@
 import psycopg2
 import os
-
+'''
 def db_conn():
     DB_NAME = os.getenv('dbname')
     DB_USER = os.getenv('user')
@@ -20,7 +20,7 @@ def db_conn():
     except Exception as e:
         print("Error connecting to database: ", e)
         return None
-
+'''
 
 def db_conn_default():
     DB_NAME = os.getenv('dbname')
@@ -42,7 +42,7 @@ def db_conn_default():
         print("Error connecting to database: ", e)
         return None
 
-'''
+
 def db_conn(user_type):
     # Mapeamento entre tipo de utilizador e variáveis de ambiente
     db_users = {
@@ -76,4 +76,3 @@ def db_conn(user_type):
     except Exception as e:
         print(f"Erro ao conectar à base de dados como {user_type}: ", e)
         return None
-'''

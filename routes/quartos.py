@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from db.db import db_conn
+from db.db import db_conn, db_conn_default
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 quarto_routes = Blueprint('quarto_routes', __name__)
@@ -13,7 +13,8 @@ def get_quartos():
         if claims['tipo'] != 'admin' and claims['tipo'] != 'rececionista':
         #if current_user['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
-        conn = db_conn()
+        #conn = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -100,6 +101,7 @@ def insert_quarto():
         preco = data['preco']
 
         conn = db_conn()
+        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -124,7 +126,7 @@ def check_disponibilidade(id_quarto):
         ckeck_out = data['ckeck_out']
         #id_quarto = data['id_quarto']
 
-        conn = db_conn()
+        conn = db_conn_default()
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
