@@ -1,5 +1,3 @@
-import base64
-
 from flask import Blueprint, jsonify, request
 from db.db import db_conn
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
@@ -26,16 +24,17 @@ def get_img_quartos(id_quarto):
         cur = conn.cursor()
         cur.execute("SELECT id_img, encode(img, 'base64') AS img_base64 FROM img_quartos WHERE quartos_id_quarto = %s", (id_quarto,))
         rows = cur.fetchall()
+
+        for row in rows: #retirar os \n
+            row['img_base64'] = row['img_base64'].replace('\n', '')
+        cur.close()
+
         cur.close()
         conn.close()
         if not rows:
             return jsonify({"error": "Nenhuma imagem encontrada para este quarto."}), 404
         else:
-            array = []
-            for r in rows:
-                array.append(base64.encodestring(r[1]))
-            return jsonify({"rows":  array}), 200
-
+            return jsonify({"rows": rows}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
