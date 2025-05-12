@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-from db.db import db_conn
+from db.db import db_conn, db_conn_default
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity, get_jwt
 from routes.utilizadores import utilizadores_routes
 from routes.quartos import quarto_routes
@@ -32,12 +32,12 @@ def home():
     return "LUME!"
 
 @app.route('/test_db', methods=['GET'])
-@jwt_required()
+#@jwt_required()
 def test_db():
     try:
-        current_user = get_jwt_identity()
-        claims = get_jwt()
-        conn = db_conn(claims['tipo'])
+        #current_user = get_jwt_identity()
+        #claims = get_jwt()
+        conn = db_conn_default()
         if conn:
             cur = conn.cursor()
             cur.execute("SELECT current_user;")
