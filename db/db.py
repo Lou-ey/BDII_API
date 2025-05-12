@@ -44,7 +44,6 @@ def db_conn_default():
 
 
 def db_conn(user_type):
-    # Mapeamento entre tipo de utilizador e variáveis de ambiente
     db_users = {
         "admin": {
             "user": os.getenv("ADMIN_USER"),
@@ -60,19 +59,25 @@ def db_conn(user_type):
         }
     }
 
-    if user_type not in db_users:
-        print("Tipo de utilizador inválido.")
-        return None
+    user = db_users[user_type]["user"]
+    password = db_users[user_type]["password"]
+    host = os.getenv("HOST")
+    port = os.getenv("PORT")
+    dbname = os.getenv("DB_NAME")
 
     try:
         conn = psycopg2.connect(
-            dbname=os.getenv("DB_NAME"),
-            user=db_users[user_type]["user"],
-            password=db_users[user_type]["password"],
-            host=os.getenv("HOST"),
-            port=os.getenv("PORT")
+            dbname=dbname,
+            user=user,
+            password=password,
+            host=host,
+            port=port
         )
-        return conn
+        return conn, None
     except Exception as e:
-        print(f"Erro ao conectar à base de dados como {user_type}: ", e)
-        return None
+        return None, {
+            "error": str(e),
+            "user": user,
+            "host": host,
+            "dbname": dbname
+        }

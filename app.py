@@ -34,58 +34,22 @@ def home():
     return "LUME!"
 
 @app.route('/test_db', methods=['GET'])
+@jwt_required()
 def test_db():
-    user_type = "admin"
-    db_users = {
-        "admin": {
-            "user": os.getenv("ADMIN_USER"),
-            "password": os.getenv("ADMIN_PASSWORD")
-        },
-        "rececionista": {
-            "user": os.getenv("RECECIONISTA_USER"),
-            "password": os.getenv("RECECIONISTA_PASSWORD")
-        },
-        "cliente": {
-            "user": os.getenv("CLIENTE_USER"),
-            "password": os.getenv("CLIENTE_PASSWORD")
-        }
-    }
-
-    user = db_users[user_type]["user"]
-    password = db_users[user_type]["password"]
-    host = os.getenv("HOST")
-    port = os.getenv("PORT")
-    dbname = os.getenv("DB_NAME")
-
-    try:
-        conn = psycopg2.connect(
-            dbname=dbname,
-            user=user,
-            password=password,
-            host=host,
-            port=port
-        )
-        if conn:
-            cur = conn.cursor()
-            cur.execute("SELECT current_user;")
-            db_user = cur.fetchone()[0]
-            cur.close()
-            conn.close()
-            return jsonify({
-                "message": "Database connection successful!",
-                "connected_user": db_user
-            }), 200
-    except Exception as e:
+    claims = get_jwt()
+    conn, error_info = db_conn(claims['tipo'])
+    if conn:
+        cur = conn.cursor()
+        cur.execute("SELECT current_user;")
+        db_user = cur.fetchone()[0]
+        cur.close()
+        conn.close()
         return jsonify({
-            "message": f"Erro ao conectar à base de dados: {str(e)}",
-            "credenciais_usadas": {
-                "user": user,
-                "host": host,
-                "dbname": dbname
-            }
+            "message": "Database connection successful!",
+            "connected_user": db_user
+        }), 200
+    else:
+        return jsonify({
+            "message": "Erro ao conectar à base de dados.",
+            "detalhes": error_info
         }), 500
-
-
-
-
-
