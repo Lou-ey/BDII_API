@@ -1,3 +1,5 @@
+import base64
+
 from flask import Blueprint, jsonify, request
 from db.db import db_conn
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
@@ -29,7 +31,8 @@ def get_img_quartos(id_quarto):
         if not rows:
             return jsonify({"error": "Nenhuma imagem encontrada para este quarto."}), 404
         else:
-            return jsonify({"rows": rows}), 200
+            return jsonify({"rows":  base64.encodestring(rows)}), 200
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
