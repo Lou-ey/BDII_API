@@ -10,9 +10,9 @@ def get_quartos():
     try :
         current_user = get_jwt_identity()
         claims = get_jwt()
-        if claims['tipo'] != 'admin' and claims['tipo'] != 'rececionista':
+        #if claims['tipo'] != 'admin' and claims['tipo'] != 'rececionista':
         #if current_user['tipo'] != 'admin':
-            return jsonify({"error": "Acesso negado."}), 403
+            #return jsonify({"error": "Acesso negado."}), 403
         #conn = db_conn()
         conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
