@@ -23,11 +23,11 @@ def db_conn():
 '''
 
 def db_conn_default():
-    DB_NAME = os.getenv('dbname')
-    DB_USER = os.getenv('user')
-    DB_PASSWORD = os.getenv('password')
-    DB_HOST = os.getenv('host')
-    DB_PORT = os.getenv('port')
+    DB_NAME = os.getenv('DB_NAME')
+    DB_USER = os.getenv('USER')
+    DB_PASSWORD = os.getenv('PASSWORD')
+    DB_HOST = os.getenv('HOST')
+    DB_PORT = os.getenv('PORT')
 
     try:
         conn = psycopg2.connect(
@@ -69,8 +69,8 @@ def db_conn(user_type):
             dbname=os.getenv("DB_NAME"),
             user=db_users[user_type]["user"],
             password=db_users[user_type]["password"],
-            host=os.getenv("DB_HOST"),
-            port=os.getenv("DB_PORT")
+            host=os.getenv("HOST"),
+            port=os.getenv("PORT")
         )
         return conn
     except Exception as e:
