@@ -31,7 +31,10 @@ def get_img_quartos(id_quarto):
         if not rows:
             return jsonify({"error": "Nenhuma imagem encontrada para este quarto."}), 404
         else:
-            return jsonify({"rows":  base64.encodestring(rows)}), 200
+            array = []
+            for r in rows:
+                array.append(base64.encodestring(r))
+            return jsonify({"rows":  array}), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
