@@ -37,7 +37,7 @@ def test_db():
     try:
         #current_user = get_jwt_identity()
         #claims = get_jwt()
-        conn = db_conn_default()
+        conn = db_conn("admin")
         if conn:
             cur = conn.cursor()
             cur.execute("SELECT current_user;")
