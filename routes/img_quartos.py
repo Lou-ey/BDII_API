@@ -33,7 +33,7 @@ def get_img_quartos(id_quarto):
         else:
             array = []
             for r in rows:
-                array.append(base64.b64encode(r))
+                array.append(base64.b64encode(r[1]))
             return jsonify({"rows":  array}), 200
 
     except Exception as e:
