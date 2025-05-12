@@ -34,10 +34,10 @@ def home():
     return "LUME!"
 
 @app.route('/test_db', methods=['GET'])
-@jwt_required()
+#@jwt_required()
 def test_db():
-    claims = get_jwt()
-    conn, error_info = db_conn(claims['tipo'])
+    #claims = get_jwt()
+    conn, error_info = db_conn("admin")
     if conn:
         cur = conn.cursor()
         cur.execute("SELECT current_user;")
