@@ -53,8 +53,8 @@ def test_db():
 
     user = db_users[user_type]["user"]
     password = db_users[user_type]["password"]
-    host = os.getenv("DB_HOST")
-    port = os.getenv("DB_PORT")
+    host = os.getenv("HOST")
+    port = os.getenv("PORT")
     dbname = os.getenv("DB_NAME")
 
     try:
