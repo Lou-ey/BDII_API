@@ -11,7 +11,7 @@ def get_quartos():
         current_user = get_jwt_identity()
         claims = get_jwt()
         #if claims['tipo'] != 'admin' and claims['tipo'] != 'rececionista':
-        if current_user['tipo'] != 'admin':
+        if claims['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
         #conn = db_conn()
         conn, _ = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
@@ -60,8 +60,8 @@ def get_quartos_by_id(id_quarto):
         cur.close()
         conn.close()
 
-        if row:
-            return jsonify({"row": result}), 200
+        if rows:
+            return jsonify({"Row": result}), 200
         else:
             return jsonify({"error": "Quarto não encontrado."}), 404
 
