@@ -132,7 +132,7 @@ def get_reserva_by_year():
         data_fim = f"{ano + 1}-01-01"
 
         #conn = db_conn()
-        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao ha bd dinamica dependendo do tipo de utilizador
+        conn, _ = db_conn(claims['tipo']) # Usar esta conexão para conexao ha bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -141,10 +141,16 @@ def get_reserva_by_year():
             SELECT * FROM reservas 
             WHERE checkin >= %s AND checkin < %s
         """, (data_inicio, data_fim))
+        col_names = [desc[0] for desc in cur.description]  # Obter nomes das colunas
         rows = cur.fetchall()
+
+        result = []
+        for row in rows:  # Combinar nomes das colunas com valores das linhas
+            row_dict = dict(zip(col_names, row))
+            result.append(row_dict)
         cur.close()
         conn.close()
-        return jsonify({"Row": rows})
+        return jsonify({"Row": result}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -163,19 +169,31 @@ def get_active_reservations():
         if claims["tipo"] == "admin" or claims["tipo"] == "rececionista":
             cur = conn.cursor()
             cur.execute("""SELECT * FROM get_active_reservations()""")
+            col_names = [desc[0] for desc in cur.description]  # Obter nomes das colunas
             rows = cur.fetchall()
+
+            result = []
+            for row in rows:  # Combinar nomes das colunas com valores das linhas
+                row_dict = dict(zip(col_names, row))
+                result.append(row_dict)
             cur.close()
             conn.close()
-            return jsonify({"Row": rows})
+            return jsonify({"Row": result}), 200
         elif claims["tipo"] == "cliente":
             cur = conn.cursor()
             cur.execute("""SELECT * FROM get_active_reservations(%s)""", (current_user,))
+            col_names = [desc[0] for desc in cur.description]  # Obter nomes das colunas
             rows = cur.fetchall()
+
+            result = []
+            for row in rows:  # Combinar nomes das colunas com valores das linhas
+                row_dict = dict(zip(col_names, row))
+                result.append(row_dict)
             cur.close()
             conn.close()
             if not rows:
                 return jsonify({"error": "Nenhuma reserva ativa encontrada."}), 404
             else:
-                return jsonify({"Row": rows})
+                return jsonify({"Row": result}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500

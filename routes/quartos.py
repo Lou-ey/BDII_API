@@ -14,16 +14,22 @@ def get_quartos():
         if current_user['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
         #conn = db_conn()
-        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        conn, _ = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
         cur = conn.cursor()
         cur.execute("SELECT * FROM quartos")
+        col_names = [desc[0] for desc in cur.description]  # Obter nomes das colunas
         rows = cur.fetchall()
+
+        result = []
+        for row in rows:  # Combinar nomes das colunas com valores das linhas
+            row_dict = dict(zip(col_names, row))
+            result.append(row_dict)
         cur.close()
         conn.close()
-        return jsonify({"Row": rows})
+        return jsonify({"Row": result}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -38,18 +44,24 @@ def get_quartos_by_id(id_quarto):
             return jsonify({"error": "Acesso negado."}), 403
 
         #conn = db_conn()
-        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        conn, _ = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
         cur = conn.cursor()
         cur.execute("SELECT * FROM quartos WHERE id_quarto = %s", (id_quarto,))
-        row = cur.fetchone()
+        col_names = [desc[0] for desc in cur.description]  # Obter nomes das colunas
+        rows = cur.fetchall()
+
+        result = []
+        for row in rows:  # Combinar nomes das colunas com valores das linhas
+            row_dict = dict(zip(col_names, row))
+            result.append(row_dict)
         cur.close()
         conn.close()
 
         if row:
-            return jsonify({"row": row})
+            return jsonify({"row": result}), 200
         else:
             return jsonify({"error": "Quarto não encontrado."}), 404
 
@@ -71,7 +83,7 @@ def update_quarto(id_quarto):
         novo_valor = data['novo_valor']
 
         #conn = db_conn()
-        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        conn, _ = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
         cur = conn.cursor()
@@ -101,7 +113,7 @@ def insert_quarto():
         preco = data['preco']
 
         #conn = db_conn()
-        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        conn, _ = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -132,12 +144,18 @@ def check_disponibilidade(id_quarto):
 
         cur = conn.cursor()
         cur.execute("SELECT check_disponibilidade(%s, %s, %s)", (ckeck_in, ckeck_out, id_quarto))
-        row = cur.fetchone()
+        col_names = [desc[0] for desc in cur.description]  # Obter nomes das colunas
+        rows = cur.fetchall()
+
+        result = []
+        for row in rows:  # Combinar nomes das colunas com valores das linhas
+            row_dict = dict(zip(col_names, row))
+            result.append(row_dict)
         cur.close()
         conn.close()
 
         if row:
-            return jsonify({"row": row})
+            return jsonify({"row": result}), 200
         else:
             return jsonify({"error": "Quarto não encontrado."}), 404
 

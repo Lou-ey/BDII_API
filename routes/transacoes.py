@@ -17,7 +17,7 @@ def pay(id_reserva):
         met_pagamento = data.get('met_pagamento')
 
         #db = db_conn()
-        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        conn, _ = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -54,10 +54,16 @@ def get_all_transacoes():
 
         cur = conn.cursor()
         cur.execute("SELECT * FROM transacoes")
+        col_names = [desc[0] for desc in cur.description]  # Obter nomes das colunas
         rows = cur.fetchall()
+
+        result = []
+        for row in rows:  # Combinar nomes das colunas com valores das linhas
+            row_dict = dict(zip(col_names, row))
+            result.append(row_dict)
         cur.close()
         conn.close()
-        return jsonify({"Row": rows})
+        return jsonify({"Row": result}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -72,16 +78,23 @@ def get_transacoes(id_reserva):
             return jsonify({"error": "Acesso negado."}), 403
 
         #conn = db_conn()
-        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        conn, _ = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
         cur = conn.cursor()
         cur.execute("SELECT * FROM transacoes_view WHERE id_reserva = %s", (id_reserva,))
+        col_names = [desc[0] for desc in cur.description]  # Obter nomes das colunas
         rows = cur.fetchall()
+
+        result = []
+        for row in rows:  # Combinar nomes das colunas com valores das linhas
+            row_dict = dict(zip(col_names, row))
+            result.append(row_dict)
+
         cur.close()
         conn.close()
-        return jsonify({"Row": rows})
+        return jsonify({"Row": result}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
