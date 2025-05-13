@@ -15,7 +15,7 @@ def get_all_users():
             return jsonify({"error": "Acesso negado."}), 403
 
         #conn = db_conn()
-        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        conn, _ = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
