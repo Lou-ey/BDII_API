@@ -11,8 +11,8 @@ def get_quartos():
         current_user = get_jwt_identity()
         claims = get_jwt()
         #if claims['tipo'] != 'admin' and claims['tipo'] != 'rececionista':
-        #if current_user['tipo'] != 'admin':
-            #return jsonify({"error": "Acesso negado."}), 403
+        if current_user['tipo'] != 'admin':
+            return jsonify({"error": "Acesso negado."}), 403
         #conn = db_conn()
         conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
@@ -37,8 +37,8 @@ def get_quartos_by_id(id_quarto):
             #if current_user['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
 
-        conn = db_conn()
-        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        #conn = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -70,8 +70,8 @@ def update_quarto(id_quarto):
         parametro_a_alterar = data['parametro_a_alterar']
         novo_valor = data['novo_valor']
 
-        conn = db_conn()
-        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        #conn = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
         cur = conn.cursor()
@@ -100,8 +100,8 @@ def insert_quarto():
         #image = data['image']
         preco = data['preco']
 
-        conn = db_conn()
-        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        #conn = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 

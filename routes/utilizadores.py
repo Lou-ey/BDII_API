@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from db.db import db_conn
+from db.db import db_conn, db_conn_default
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 utilizadores_routes = Blueprint('utilizadores_routes', __name__)
@@ -14,17 +14,19 @@ def get_all_users():
         #if current_user['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
 
-        conn = db_conn()
-        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        #conn = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
         cur = conn.cursor()
         cur.execute("SELECT * FROM users_view")
+        col_names = [desc[0] for desc in cur.description] # Obter nomes das colunas
         rows = cur.fetchall()
+        result = [dict(zip(col_names, row)) for row in rows] # Combinar nomes das colunas com valores das linhas
         cur.close()
         conn.close()
-        return jsonify({"Row": rows})
+        return jsonify({"Row": result}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -39,8 +41,8 @@ def get_user_by_id(id_utilizador):
             #if current_user['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
 
-        conn = db_conn()
-        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        #conn = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -73,7 +75,7 @@ def insert_user():
         idade = data.get('idade')
         tipo = data.get('tipo')
 
-        conn = db_conn()
+        conn = db_conn_default()
         #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
 
         if conn is None:

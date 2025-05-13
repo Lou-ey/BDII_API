@@ -16,12 +16,12 @@ def pay(id_reserva):
         data = request.get_json()
         met_pagamento = data.get('met_pagamento')
 
-        db = db_conn()
-        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
-        if db is None:
+        #db = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
-        cur = db.cursor()
+        cur = conn.cursor()
         cur.execute("SELECT utilizadores_id_cliente FROM reservas_view WHERE id_reserva = %s", (id_reserva,))
         user_id = cur.fetchone()[0]
         current_user = int(current_user) # Converter para inteiro
@@ -30,9 +30,9 @@ def pay(id_reserva):
             #return jsonify({"error": f"Acesso negado. Com o id: {current_user} e o id da reserva e: {user_id}"}), 403
 
         cur.execute("CALL pay_reserva(%s, %s)", (id_reserva, met_pagamento))
-        db.commit()
+        conn.commit()
         cur.close()
-        db.close()
+        conn.close()
         return jsonify({"message": "Reserva paga com sucesso."}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -47,8 +47,8 @@ def get_all_transacoes():
             #if current_user['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
 
-        conn = db_conn()
-        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        #conn = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -71,8 +71,8 @@ def get_transacoes(id_reserva):
             #if current_user['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
 
-        conn = db_conn()
-        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        #conn = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 

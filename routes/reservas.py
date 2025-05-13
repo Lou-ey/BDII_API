@@ -13,8 +13,8 @@ def get_all_reservas():
         if claims['tipo'] != 'admin' and claims['tipo'] != 'rececionista':
             return jsonify({"error": "Acesso negado."}), 403
 
-        conn = db_conn()
-        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        #conn = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -35,8 +35,8 @@ def get_reserva_by_id(id_reserva):
         claims = get_jwt()
         if claims['tipo'] != 'admin' and claims['tipo'] != 'rececionista':
             return jsonify({"error": f"Acesso negado. Com o tipo {claims['tipo']} "}), 403
-        conn = db_conn()
-        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        #conn = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -69,8 +69,8 @@ def insert_reserva():
         id_cliente = data.get('id_cliente')
         id_quarto = data.get('id_quarto')
 
-        conn = db_conn()
-        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        #conn = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -94,8 +94,8 @@ def cancel_reservation(id_reserva):
         claims = get_jwt()
         if claims['tipo'] != 'admin' and claims['tipo'] != 'rececionista':
             return jsonify({"error": "Acesso negado."}), 403
-        db = db_conn()
-        #db = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd de forma dinamica dependendo do tipo de utilizador
+        #db = db_conn()
+        db = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd de forma dinamica dependendo do tipo de utilizador
         if db is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
         cur = db.cursor()
@@ -131,8 +131,8 @@ def get_reserva_by_year():
         data_inicio = f"{ano}-01-01"
         data_fim = f"{ano + 1}-01-01"
 
-        conn = db_conn()
-        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao ha bd dinamica dependendo do tipo de utilizador
+        #conn = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao ha bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
@@ -155,8 +155,8 @@ def get_active_reservations():
         current_user = get_jwt_identity()
         claims = get_jwt()
 
-        conn = db_conn()
-        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao ha bd dinamica dependendo do tipo de utilizador
+        #conn = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao ha bd dinamica dependendo do tipo de utilizador
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 

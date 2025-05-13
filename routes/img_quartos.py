@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from db.db import db_conn
+from db.db import db_conn, db_conn_default
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 img_quartos_routes = Blueprint('img_quartos_routes', __name__)
@@ -11,11 +11,11 @@ def get_img_quartos(id_quarto):
     try:
         #current_user = get_jwt_identity()
         #claims = get_jwt()
-       # if claims['tipo'] != 'admin':
+        #if claims['tipo'] != 'admin':
             #if current_user['tipo'] != 'admin':
-          #  return jsonify({"error": "Acesso negado."}), 403
+            #return jsonify({"error": "Acesso negado."}), 403
 
-        conn = db_conn()
+        conn = db_conn_default()
         #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
 
         if conn is None:
@@ -54,8 +54,8 @@ def insert_img_quarto(id_quarto):
             #if current_user['tipo'] != 'admin':
             return jsonify({"error": "Acesso negado."}), 403
 
-        conn = db_conn()
-        #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
+        #conn = db_conn()
+        conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
 
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
