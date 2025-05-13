@@ -23,10 +23,17 @@ def get_all_users():
         cur.execute("SELECT * FROM users_view")
         col_names = [desc[0] for desc in cur.description] # Obter nomes das colunas
         rows = cur.fetchall()
-        result = [dict(zip(col_names, row)) for row in rows] # Combinar nomes das colunas com valores das linhas
+
+        result=[]
+        for row in rows: # Combinar nomes das colunas com valores das linhas
+            row_dict = dict(zip(col_names, row))
+            result.append(row_dict)
+
         cur.close()
         conn.close()
+
         return jsonify({"Row": result}), 200
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
