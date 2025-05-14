@@ -74,7 +74,7 @@ def get_user_by_id(id_utilizador):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
+'''
 @utilizadores_routes.route('/auth/register', methods=['POST'])
 def insert_user():
     try:
@@ -106,6 +106,76 @@ def insert_user():
         conn.close()
 
         return jsonify({"message": "Utilizador inserido com sucesso!"}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+'''
+
+@utilizadores_routes.route('/auth/register', methods=['POST'])
+def public_register_cliente():
+    try:
+        data = request.get_json()
+
+        if data.get('tipo') != 'cliente':
+            return jsonify({"error": "Só é permitido criar contas do tipo cliente neste endpoint."}), 403
+
+        nome = data.get('nome')
+        email = data.get('email')
+        password = data.get('password')
+        nif = data.get('nif')
+        telefone = data.get('telefone')
+        idade = data.get('idade')
+
+        conn = db_conn_default()
+        if conn is None:
+            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
+
+        cur = conn.cursor()
+        cur.execute("CALL insert_user(%s, %s, %s, %s, %s, %s, %s)",
+                    (nome, email, password, nif, telefone, idade, 'cliente'))  # Força tipo cliente
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        return jsonify({"message": "Conta cliente criada com sucesso!"}), 201
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@utilizadores_routes.route('/auth/register/staff', methods=['POST'])
+@jwt_required()
+def register_staff():
+    try:
+        claims = get_jwt()
+
+        if claims['tipo'] != 'admin':
+            return jsonify({"error": "Apenas administradores podem criar contas de staff."}), 403
+
+        data = request.get_json()
+        tipo = data.get('tipo')
+
+        if tipo not in ['admin', 'rececionista']:
+            return jsonify({"error": "Só pode registar utilizadores do tipo admin ou rececionista."}), 400
+
+        nome = data.get('nome')
+        email = data.get('email')
+        password = data.get('password')
+        nif = data.get('nif')
+        telefone = data.get('telefone')
+        idade = data.get('idade')
+
+        conn, _ = db_conn(claims['tipo'])
+        if conn is None:
+            return jsonify({"error": "Erro ao conectar à base de dados."}), 500
+
+        cur = conn.cursor()
+        cur.execute("CALL insert_user(%s, %s, %s, %s, %s, %s, %s)",
+                    (nome, email, password, nif, telefone, idade, tipo))
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        return jsonify({"message": f"Conta {tipo} criada com sucesso!"}), 201
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

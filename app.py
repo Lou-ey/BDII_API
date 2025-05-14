@@ -7,8 +7,6 @@ from routes.img_quartos import img_quartos_routes
 from routes.reservas import reservas_routes
 from routes.login import login_routes
 from routes.transacoes import trans_routes
-import os
-import psycopg2
 
 app = Flask(__name__)
 
