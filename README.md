@@ -167,9 +167,3 @@ Tipos de utilizador disponíveis:
 
 ---
 
-## 📬 Contacto
-
-Desenvolvido por [O Teu Nome]  
-📧 Email: teuemail@exemplo.com
-
----
