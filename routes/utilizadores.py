@@ -116,8 +116,8 @@ def public_register_cliente():
     try:
         data = request.get_json()
 
-        if data.get('tipo') != 'cliente':
-            return jsonify({"error": "Só é permitido criar contas do tipo cliente neste endpoint."}), 403
+        #if data.get('tipo') != 'cliente':
+            #return jsonify({"error": "Só é permitido criar contas do tipo cliente neste endpoint."}), 403
 
         nome = data.get('nome')
         email = data.get('email')

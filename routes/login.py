@@ -34,7 +34,7 @@ def login():
                 "email": user[2],
                 "tipo": user[7]
             },
-            expires_delta=timedelta(hours=24)
+            expires_delta=timedelta(hours=1)
         )
         return jsonify({"access_token": access_token, "user": user[1], "tipo": user[7], "id_utilizador": user[0]}), 200
     else:
