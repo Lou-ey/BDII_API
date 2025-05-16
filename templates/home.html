@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
@@ -44,4 +44,101 @@
     <li><span class="endpoint">GET /test_db</span> – Testar ligação à base de dados</li>
   </ul>
 </body>
+</html>-->
+
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <title>API do Hotel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            margin: 8px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #2980b9;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Bem-vindo à API do Hotel</h1>
+    <p>Selecione um dos endpoints abaixo para mais informações:</p>
+
+    <div class="section">
+        <h2>🔐 Autenticação</h2>
+        <ul>
+            <li><a href="/auth/login">POST /auth/login</a></li>
+            <li><a href="/auth/register">POST /auth/register</a></li>
+            <li><a href="/auth/register/rececionista">POST /auth/register/rececionista</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>👤 Utilizadores</h2>
+        <ul>
+            <li><a href="/user/get_all">GET /user/get_all</a></li>
+            <li><a href="/user/&lt;id_utilizador&gt;">GET /user/&lt;id_utilizador&gt;</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🛏️ Quartos</h2>
+        <ul>
+            <li><a href="/quartos/get_all">GET /quartos/get_all</a></li>
+            <li><a href="/quartos/&lt;id_quarto&gt;">GET /quartos/&lt;id_quarto&gt;</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🖼️ Imagens dos Quartos</h2>
+        <ul>
+            <li><a href="/img_quartos/get_all/&lt;id_quarto&gt;">GET /img_quartos/get_all/&lt;id_quarto&gt;</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>📅 Reservas</h2>
+        <ul>
+            <li><a href="/reservas/get_all">GET /reservas/get_all</a></li>
+            <li><a href="/reserva/reserva_by_year?ano=2025">GET /reserva/reserva_by_year</a></li>
+            <li><a href="/reservas/&lt;id_reserva&gt;/cancel">PUT /reservas/&lt;id_reserva&gt;/cancel</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>💳 Transações</h2>
+        <ul>
+            <li><a href="/transacoes/get_all">GET /transacoes/get_all</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🧪 Teste de Conexão</h2>
+        <ul>
+            <li><a href="/test_db">GET /test_db</a></li>
+        </ul>
+    </div>
+
+</body>
 </html>
+
