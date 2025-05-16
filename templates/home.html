@@ -17,32 +17,128 @@
   <ul>
     <li><span class="endpoint">POST <a href="/auth/login"> /auth/login</a></span> – Autenticação e geração de token JWT</li>
     <li><span class="endpoint">POST <a href="/auth/register"> /auth/register</a></span> – Registar novo cliente</li>
-    <li><span class="endpoint">POST <a href="/auth/login"> /auth/register/staff</a></span> – Registar staff (admin/rececionista)</li>
+    <li><span class="endpoint">POST <a href="/auth/register/staff"> /auth/register/staff</a></span> – Registar staff (admin/rececionista)</li>
 
-    <li><span class="endpoint">GET <a href="/auth/login"> /user/get_all</a></span> – Listar todos os utilizadores</li>
-    <li><span class="endpoint">GET <a href="/auth/login"> /user/&lt;id&gt;</a></span> – Obter utilizador por ID</li>
+    <li><span class="endpoint">GET <a href="/user/get_all"> /user/get_all</a></span> – Listar todos os utilizadores</li>
+    <li><span class="endpoint">GET <a href="/user/&lt;id_utilizador&gt;"> /user/&lt;id&gt;</a></span> – Obter utilizador por ID</li>
 
-    <li><span class="endpoint">POST <a href="/auth/login"> /quartos/insert</a></span> – Inserir novo quarto</li>
-    <li><span class="endpoint">GET <a href="/auth/login"> /quartos/get_all</a></span> – Obter todos os quartos</li>
-    <li><span class="endpoint">GET <a href="/auth/login"> /quartos/&lt;id&gt;</a></span> – Obter quarto por ID</li>
-    <li><span class="endpoint">PUT <a href="/auth/login"> /quartos/update/&lt;id&gt;</a></span> – Atualizar informação de quarto</li>
-    <li><span class="endpoint">POST <a href="/auth/login"> /quartos/check_disponibilidade/&lt;id&gt;</a></span> – Verificar disponibilidade do quarto</li>
+    <li><span class="endpoint">POST <a href="/quartos/insert"> /quartos/insert</a></span> – Inserir novo quarto</li>
+    <li><span class="endpoint">GET <a href="/quartos/get_all"> /quartos/get_all</a></span> – Obter todos os quartos</li>
+    <li><span class="endpoint">GET <a href="/quartos/&lt;id_quarto&gt;"> /quartos/&lt;id&gt;</a></span> – Obter quarto por ID</li>
+    <li><span class="endpoint">PUT <a href="/quartos/update/&lt;id_quarto&gt;"> /quartos/update/&lt;id&gt;</a></span> – Atualizar informação de quarto</li>
+    <li><span class="endpoint">POST <a href="/quartos/check_disponibilidade/&lt;id_quarto&gt;"> /quartos/check_disponibilidade/&lt;id&gt;</a></span> – Verificar disponibilidade do quarto</li>
 
-    <li><span class="endpoint">POST <a href="/auth/login"> /reservas/insert</a></span> – Inserir nova reserva</li>
-    <li><span class="endpoint">GET <a href="/auth/login"> /reservas/get_all</a></span> – Obter todas as reservas</li>
-    <li><span class="endpoint">GET <a href="/auth/login"> /reservas/&lt;id&gt;</a></span> – Obter reserva por ID</li>
-    <li><span class="endpoint">GET <a href="/auth/login"> /reservas/reserva_by_year?ano=YYYY</a></span> – Obter reservas de um ano específico</li>
-    <li><span class="endpoint">PUT <a href="/auth/login"> /reservas/&lt;id&gt;/cancel</a></span> – Cancelar uma reserva</li>
-    <li><span class="endpoint">GET <a href="/auth/login"> /reservas/get_active_reservations</a></span> – Listar reservas ativas</li>
-    <li><span class="endpoint">POST <a href="/auth/login"> /reservas/&lt;id&gt;/pagar</a></span> – Efetuar pagamento de reserva</li>
+    <li><span class="endpoint">POST <a href="/reservas/insert"> /reservas/insert</a></span> – Inserir nova reserva</li>
+    <li><span class="endpoint">GET <a href="/reservas/get_all"> /reservas/get_all</a></span> – Obter todas as reservas</li>
+    <li><span class="endpoint">GET <a href="/reservas/&lt;id&gt;"> /reservas/&lt;id&gt;</a></span> – Obter reserva por ID</li>
+    <li><span class="endpoint">GET <a href="/reservas/reserva_by_year?ano=YYYY"> /reservas/reserva_by_year?ano=YYYY</a></span> – Obter reservas de um ano específico</li>
+    <li><span class="endpoint">PUT <a href="/reservas/&lt;id&gt;/cancel"> /reservas/&lt;id&gt;/cancel</a></span> – Cancelar uma reserva</li>
+    <li><span class="endpoint">GET <a href="/reservas/get_active_reservations"> /reservas/get_active_reservations</a></span> – Listar reservas ativas</li>
+    <li><span class="endpoint">POST <a href="/reservas/&lt;id&gt;/pagar"> /reservas/&lt;id&gt;/pagar</a></span> – Efetuar pagamento de reserva</li>
 
-    <li><span class="endpoint">GET <a href="/auth/login"> /img_quartos/get_all/&lt;id_quarto&gt;</a></span> – Obter imagens de um quarto</li>
-    <li><span class="endpoint">POST <a href="/auth/login"> /img_quartos/insert/&lt;id_quarto&gt;</a></span> – Inserir imagem em base64 para um quarto</li>
+    <li><span class="endpoint">GET <a href="/img_quartos/get_all/&lt;id_quarto&gt;"> /img_quartos/get_all/&lt;id_quarto&gt;</a></span> – Obter imagens de um quarto</li>
+    <li><span class="endpoint">POST <a href="/img_quartos/insert/&lt;id_quarto&gt;"> /img_quartos/insert/&lt;id_quarto&gt;</a></span> – Inserir imagem em base64 para um quarto</li>
 
-    <li><span class="endpoint">GET <a href="/auth/login"> /transacoes/get_all</a></span> – Obter todas as transações</li>
+    <li><span class="endpoint">GET <a href="/transacoes/get_all"> /transacoes/get_all</a></span> – Obter todas as transações</li>
 
-    <li><span class="endpoint">GET <a href="/auth/login"> /test_db</a></span> – Testar ligação à base de dados</li>
+    <li><span class="endpoint">GET <a href="/test_db"> /test_db</a></span> – Testar ligação à base de dados</li>
   </ul>
+</body>
+</html>
+
+<!--<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <title>API do Hotel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            margin: 8px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #2980b9;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Bem-vindo à API do Hotel</h1>
+    <p>Selecione um dos endpoints abaixo para mais informações:</p>
+
+    <div class="section">
+        <h2>🔐 Autenticação</h2>
+        <ul>
+            <li><a href="/auth/login">POST /auth/login</a></li>
+            <li><a href="/auth/register">POST /auth/register</a></li>
+            <li><a href="/auth/register/rececionista">POST /auth/register/rececionista</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>👤 Utilizadores</h2>
+        <ul>
+            <li><a href="/user/get_all">GET /user/get_all</a></li>
+            <li><a href="/user/&lt;id_utilizador&gt;">GET /user/&lt;id_utilizador&gt;</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🛏️ Quartos</h2>
+        <ul>
+            <li><a href="/quartos/get_all">GET /quartos/get_all</a></li>
+            <li><a href="/quartos/&lt;id_quarto&gt;">GET /quartos/&lt;id_quarto&gt;</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🖼️ Imagens dos Quartos</h2>
+        <ul>
+            <li><a href="/img_quartos/get_all/&lt;id_quarto&gt;">GET /img_quartos/get_all/&lt;id_quarto&gt;</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>📅 Reservas</h2>
+        <ul>
+            <li><a href="/reservas/get_all">GET /reservas/get_all</a></li>
+            <li><a href="/reserva/reserva_by_year?ano=2025">GET /reserva/reserva_by_year</a></li>
+            <li><a href="/reservas/&lt;id_reserva&gt;/cancel">PUT /reservas/&lt;id_reserva&gt;/cancel</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>💳 Transações</h2>
+        <ul>
+            <li><a href="/transacoes/get_all">GET /transacoes/get_all</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🧪 Teste de Conexão</h2>
+        <ul>
+            <li><a href="/test_db">GET /test_db</a></li>
+        </ul>
+    </div>
+
 </body>
 </html>
 
