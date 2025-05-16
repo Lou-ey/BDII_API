@@ -29,7 +29,7 @@ app.register_blueprint(trans_routes)
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('./home.html')
 
 @app.route('/test_db', methods=['GET'])
 @jwt_required()
