@@ -37,10 +37,15 @@ def db_conn_default():
             host=DB_HOST,
             port=DB_PORT
         )
-        return conn
+        return conn, None
     except Exception as e:
         print("Error connecting to database: ", e)
-        return None
+        return None, {
+            "error": str(e),
+            "user": DB_USER,
+            "host": DB_HOST,
+            "dbname": DB_NAME
+        }
 
 
 def db_conn(user_type):
