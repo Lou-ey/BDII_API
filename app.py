@@ -11,7 +11,7 @@ from routes.transacoes import trans_routes
 app = Flask(__name__)
 
 app.config['JWT_SECRET_KEY'] = 'ac7caF157DAB' # secret key para codificar os tokens JWT
-app.config['JWT_TOKEN_LOCATION'] = ['headers'] # onde o token JWT será armazenado
+app.config['JWT_TOKEN_LOCATION'] = ['headers'] # aqui onde o token JWT será armazenado
 
 jwt = JWTManager(app) # Inicia o JWTManager com a aplicação Flask
 
@@ -30,32 +30,10 @@ app.register_blueprint(trans_routes)
 @app.route('/')
 def home():
     return render_template('home.html')
-'''
-@app.route('/test_db', methods=['GET'])
-@jwt_required()
-def test_db():
-    claims = get_jwt()
-    conn, error_info = db_conn(claims['tipo'])
-    conn, error_info = db_conn_default() # Usar para conexão com a base de dados default apenas destinado para autenticação
-    if conn:
-        cur = conn.cursor()
-        cur.execute("SELECT current_user;")
-        db_user = cur.fetchone()[0]
-        cur.close()
-        conn.close()
-        return jsonify({
-            "message": "Database connection successful!",
-            "connected_user": db_user
-        }), 200
-    else:
-        return jsonify({
-            "message": "Erro ao conectar à base de dados.",
-            "detalhes": error_info
-        }), 500'''
 
 @app.route('/test_db', methods=['GET'])
 def test_db():
-    # 1. Tenta conexão default
+    # tenta a conexao default
     conn, error_info = db_conn_default()
     if conn:
         cur = conn.cursor()
@@ -68,7 +46,7 @@ def test_db():
             "connected_user": db_user
         }), 200
 
-    # 2. Se falhar, tenta com admin
+    # se falhar tenta com admin
     conn, error_info = db_conn("admin")
     if conn:
         cur = conn.cursor()
@@ -81,7 +59,7 @@ def test_db():
             "connected_user": db_user
         }), 200
 
-    # 3. Se falhar, tenta com rececionista
+    # se falhar tenta com rececionista
     conn, error_info = db_conn("rececionista")
     if conn:
         cur = conn.cursor()
@@ -94,7 +72,7 @@ def test_db():
             "connected_user": db_user
         }), 200
 
-    # 4. Se tudo falhar
+    # se tudo falhar
     return jsonify({
         "message": "Erro ao conectar à base de dados com qualquer utilizador.",
         "detalhes": error_info
