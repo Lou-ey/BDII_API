@@ -56,7 +56,7 @@ def test_db():
 @app.route('/test_db', methods=['GET'])
 def test_db():
     # 1. Tenta conexão default
-    conn = db_conn_default()
+    conn, error_info = db_conn_default()
     if conn:
         cur = conn.cursor()
         cur.execute("SELECT current_user;")
