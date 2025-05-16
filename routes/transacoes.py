@@ -97,5 +97,3 @@ def get_transacoes(id_reserva):
         return jsonify({"Row": result}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-#@trans_routes.route('/transacoes/<
