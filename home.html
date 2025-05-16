@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>API do Hotel</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f5f5f5; }
+    h1 { color: #333; }
+    ul { list-style-type: none; padding: 0; }
+    li { margin: 10px 0; background: #fff; padding: 10px; border-radius: 5px; }
+    .endpoint { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Bem-vindo à API do Hotel</h1>
+  <p>Lista de endpoints disponíveis:</p>
+  <ul>
+    <li><span class="endpoint">POST /auth/login</span> – Autenticação e geração de token JWT</li>
+    <li><span class="endpoint">POST /auth/register</span> – Registar novo cliente</li>
+    <li><span class="endpoint">POST /auth/register/staff</span> – Registar staff (admin/rececionista)</li>
+
+    <li><span class="endpoint">GET /user/get_all</span> – Listar todos os utilizadores</li>
+    <li><span class="endpoint">GET /user/&lt;id&gt;</span> – Obter utilizador por ID</li>
+
+    <li><span class="endpoint">POST /quartos/insert</span> – Inserir novo quarto</li>
+    <li><span class="endpoint">GET /quartos/get_all</span> – Obter todos os quartos</li>
+    <li><span class="endpoint">GET /quartos/&lt;id&gt;</span> – Obter quarto por ID</li>
+    <li><span class="endpoint">PUT /quartos/update/&lt;id&gt;</span> – Atualizar informação de quarto</li>
+    <li><span class="endpoint">POST /quartos/check_disponibilidade/&lt;id&gt;</span> – Verificar disponibilidade do quarto</li>
+
+    <li><span class="endpoint">POST /reservas/insert</span> – Inserir nova reserva</li>
+    <li><span class="endpoint">GET /reservas/get_all</span> – Obter todas as reservas</li>
+    <li><span class="endpoint">GET /reservas/&lt;id&gt;</span> – Obter reserva por ID</li>
+    <li><span class="endpoint">GET /reservas/reserva_by_year?ano=YYYY</span> – Obter reservas de um ano específico</li>
+    <li><span class="endpoint">PUT /reservas/&lt;id&gt;/cancel</span> – Cancelar uma reserva</li>
+    <li><span class="endpoint">GET /reservas/get_active_reservations</span> – Listar reservas ativas</li>
+    <li><span class="endpoint">POST /reservas/&lt;id&gt;/pagar</span> – Efetuar pagamento de reserva</li>
+
+    <li><span class="endpoint">GET /img_quartos/get_all/&lt;id_quarto&gt;</span> – Obter imagens de um quarto</li>
+    <li><span class="endpoint">POST /img_quartos/insert/&lt;id_quarto&gt;</span> – Inserir imagem em base64 para um quarto</li>
+
+    <li><span class="endpoint">GET /transacoes/get_all</span> – Obter todas as transações</li>
+
+    <li><span class="endpoint">GET /test_db</span> – Testar ligação à base de dados</li>
+  </ul>
+</body>
+</html>
