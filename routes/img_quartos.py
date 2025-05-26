@@ -15,7 +15,7 @@ def get_img_quartos(id_quarto):
             #if current_user['tipo'] != 'admin':
             #return jsonify({"error": "Acesso negado."}), 403
 
-        conn = db_conn_default()
+        conn, _ = db_conn_default()
         #conn = db_conn(claims['tipo']) # Usar esta conexão para conexao a bd dinamica dependendo do tipo de utilizador
 
         if conn is None:
