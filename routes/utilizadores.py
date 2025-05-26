@@ -126,7 +126,7 @@ def public_register_cliente():
         telefone = data.get('telefone')
         idade = data.get('idade')
 
-        conn = db_conn_default()
+        conn, _ = db_conn_default()
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
