@@ -138,7 +138,7 @@ def check_disponibilidade(id_quarto):
         ckeck_out = data['ckeck_out']
         #id_quarto = data['id_quarto']
 
-        conn = db_conn_default()
+        conn, _ = db_conn_default()
         if conn is None:
             return jsonify({"error": "Erro ao conectar à base de dados."}), 500
 
